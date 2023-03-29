@@ -1,0 +1,27 @@
+Metinsel yani yazý tipi (STR) olarak betimlenir =	     str
+
+Sayýsal tipler : 
+Sayý tipi(ÝNT)=	int , : 36 , 52 
+Sayý tipi(FLOAT) =	float ,0.12, 21.0, 52.15
+Sayý tipi(COMPLEX) = complex, (3 + 4e), (4 + 5j) gibi
+Toplama, Çýkarma, Çarpma ve Bölme gibi kullanýlmaktadýr
+
+Dizi tipleri:  list  = listeleme veri tipi ,(Listeye dizin eklenir ve çýkarýlýr 
+		    tuple = Demet veri tipi ( demete veriti eklenemez ve çýkarýlamaz)  list daha hýzlý çalýþmaktadýr..
+
+Adresleme tipleri: dict (Sözlükveri tipi)
+ögrenci ={"osman":18, "levent":17}
+osman 18 numaralý öðrenci
+levent 17 numaralý öðrenci
+print(ögrenci) derse tüm öðrencileri numaralarý bana bildirir
+
+Mantýksal tipler: bool
+True (doðru) False (Yanlýþ)  olarak kullanýlmaktadýr.
+
+Ödev 1 = Profil Düzenle
+mail = input("mail yazýnýz")
+fullname= input("tam isim yazýnýz")
+sifre=input("þifre yazýnýz")
+print(mail)
+print(fullname)
+print(sifre)
