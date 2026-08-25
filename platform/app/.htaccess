@@ -1,0 +1,6 @@
+# Bu klasor web'den erisilemez. Dokuman koku platform/public olmalidir;
+# olamiyorsa bu dosya ikinci savunma hattidir.
+Require all denied
+<IfModule !mod_authz_core.c>
+    Deny from all
+</IfModule>

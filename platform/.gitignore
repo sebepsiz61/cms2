@@ -1,0 +1,9 @@
+# Gercek yapilandirma ve calisma zamani dosyalari surum kontrolune girmez.
+/config/config.php
+/storage/logs/*
+/storage/uploads/*
+/storage/*.lock
+/storage/last-catalog-sync
+/storage/*.sqlite*
+!/storage/logs/.gitkeep
+!/storage/uploads/.gitkeep
