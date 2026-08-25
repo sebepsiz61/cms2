@@ -76,6 +76,57 @@ cPanel'de kalici bir isci sureci yok. Bunun yerine:
   gereginden sik gidilmesini engeller.
 - **Zaman asimi ve iadeler** cron'a birakilir; musteri tarayiciyi kapatsa bile iade yapilir.
 
+## Sorun giderme
+
+Kurulumda bir sey calismazsa once teshis betigini calistirin:
+
+```bash
+php bin/doctor.php
+```
+
+PHP surumu, eklentiler, PDO suruculeri, yapilandirma, yazma izinleri ve veritabani
+baglantisini tek tek dener; eksik olan her madde icin ne yapilacagini yazar.
+
+### "PDO surucusu yuklu degil" / "could not find driver"
+
+En sik karsilasilan kurulum sorunu. cPanel'de her PHP surumunun kendi eklenti seti
+vardir; surumu degistirdiginizde eklentiler sifirlanir.
+
+1. cPanel > **Select PHP Version** (bazi surumlerde MultiPHP INI Editor)
+2. Surum **8.2** secili olsun
+3. **Extensions** sekmesinde su kutulari isaretleyin: `pdo`, `nd_pdo_mysql`
+   (bazi sunucularda `pdo_mysql` adiyla gorunur), `curl`, `mbstring`, `fileinfo`
+4. **Save** deyin, sonra `php bin/doctor.php` ile dogrulayin
+
+### Komut satiri farkli PHP surumu kullaniyor
+
+cPanel'de SSH'daki `php` genelde eski bir surumdur. Tam yol kullanin:
+
+```bash
+/opt/cpanel/ea-php82/root/usr/bin/php bin/doctor.php
+```
+
+Cron isini de bu tam yolla yazin.
+
+### "Access denied" veya "Unknown database"
+
+cPanel veritabani ve kullanici adlarini hesap adinizla on ekler. Hesap adiniz `ornek`
+ise veritabani `ornek_sanalnumara`, kullanici `ornek_kullanici` olur. `config/config.php`
+icine bu **on ekli tam adlari** yazin. Ayrica cPanel > MySQL Databases ekraninda
+kullaniciyi veritabanina ekleyip **ALL PRIVILEGES** verdiginizden emin olun.
+
+### MySQL hic yoksa
+
+Sistem SQLite ile de calisir; `config/config.php` icinde:
+
+```php
+'db' => ['driver' => 'sqlite', 'database' => __DIR__ . '/../storage/veri.sqlite'],
+```
+
+Dusuk trafikte sorunsuz calisir, tum testler zaten SQLite uzerinde kosuyor. Ancak
+uretim icin MySQL tercih edin: es zamanli yazma yukunde SQLite tek yazici ile sinirlidir
+ve veritabani dosyasi yedekleme disi kalmamalidir.
+
 ## Guvenlik notlari
 
 - Kayit her zaman `customer` rolu ile acilir.

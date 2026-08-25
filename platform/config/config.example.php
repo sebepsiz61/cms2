@@ -11,12 +11,16 @@ return [
         'locale'   => 'tr',
     ],
 
+    // cPanel'de veritabani ve kullanici adlari her zaman cPanel hesap adiyla
+    // on eklenir: hesap adiniz "ornek" ise veritabani "ornek_sanalnumara" olur.
+    // Bu on ek yazilmazsa "Unknown database" ya da "Access denied" alirsiniz.
+    // Kurulum sorunlarinda: php bin/doctor.php
     'db' => [
-        'driver'   => 'mysql',
-        'host'     => 'localhost',
+        'driver'   => 'mysql',              // 'mysql' ya da 'sqlite'
+        'host'     => 'localhost',          // cPanel'de neredeyse her zaman localhost
         'port'     => 3306,
-        'database' => 'cpanel_kullanici_db',
-        'username' => 'cpanel_kullanici',
+        'database' => 'hesapadi_sanalnumara',
+        'username' => 'hesapadi_kullanici',
         'password' => '',
         'charset'  => 'utf8mb4',
     ],

@@ -39,7 +39,14 @@ if (strlen($password) < 10) {
     exit("Yonetici sifresi en az 10 karakter olmali.\n");
 }
 
-$pdo = Database::pdo();
+try {
+    $pdo = Database::pdo();
+} catch (\Throwable $e) {
+    echo "\n" . $e->getMessage() . "\n\n";
+    echo "Ayrintili teshis icin: php bin/doctor.php\n";
+    exit(1);
+}
+
 $driver = Database::driver();
 $schemaFile = $root . '/schema/' . ($driver === 'sqlite' ? 'sqlite.sql' : 'mysql.sql');
 
