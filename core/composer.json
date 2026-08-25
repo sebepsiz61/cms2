@@ -1,0 +1,16 @@
+{
+    "name": "onay/core",
+    "description": "Saglayici bagimsiz sanal numara cekirdegi: numara saglayici soyutlamasi ve cuzdan defteri.",
+    "type": "library",
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Onay\\Core\\": "src/"
+        }
+    }
+}
