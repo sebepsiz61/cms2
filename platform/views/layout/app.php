@@ -1,20 +1,31 @@
 <?php
 use Onay\App\Kernel\Auth;
-use Onay\App\Kernel\Config;
+use Onay\App\Repository\ContentRepository;
+use Onay\App\Repository\SettingsRepository;
+
 $user = Auth::user();
+$ayar = new SettingsRepository();
+$menuSayfalari = (new ContentRepository())->menuPages();
 ?>
 <!doctype html>
 <html lang="tr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?= e($title ?? '') ?> · <?= e(Config::get('app.name', 'Sanal Numara')) ?></title>
+<title><?= e($title ?? '') ?> · <?= e($ayar->get('site_title')) ?></title>
+<?php if (!empty($description)): ?>
+<meta name="description" content="<?= e((string) $description) ?>">
+<?php endif; ?>
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
 <header class="ust">
-  <a class="marka" href="/"><?= e(Config::get('app.name', 'Sanal Numara')) ?></a>
+  <a class="marka" href="/"><?= e($ayar->get('site_title')) ?></a>
   <nav>
+    <a href="/blog">Blog</a>
+    <?php foreach ($menuSayfalari as $ms): ?>
+      <a href="/sayfa/<?= e($ms['slug']) ?>"><?= e($ms['title']) ?></a>
+    <?php endforeach; ?>
     <?php if ($user !== null): ?>
       <a href="/panel">Panel</a>
       <a href="/bakiye">Bakiye <strong><?= para((int) $user['balance_minor']) ?></strong></a>
@@ -29,6 +40,10 @@ $user = Auth::user();
     <?php endif; ?>
   </nav>
 </header>
+
+<?php if ($ayar->get('announcement') !== ''): ?>
+  <div class="duyuru"><?= e($ayar->get('announcement')) ?></div>
+<?php endif; ?>
 
 <main class="kapsayici">
   <?php if (\Onay\App\Service\ProviderFactory::demoEtkin()): ?>
@@ -45,8 +60,30 @@ $user = Auth::user();
 </main>
 
 <footer class="alt">
-  <span><?= e(Config::get('app.name', '')) ?></span>
-  <span>Tum tutarlar <?= e(Config::get('currency.code', 'TRY')) ?> cinsindendir.</span>
+  <div class="alt-blok">
+    <strong><?= e($ayar->get('site_title')) ?></strong>
+    <?php if ($ayar->get('footer_text') !== ''): ?>
+      <span><?= e($ayar->get('footer_text')) ?></span>
+    <?php endif; ?>
+  </div>
+
+  <div class="alt-blok">
+    <?php foreach ($menuSayfalari as $ms): ?>
+      <a href="/sayfa/<?= e($ms['slug']) ?>"><?= e($ms['title']) ?></a>
+    <?php endforeach; ?>
+    <a href="/blog">Blog</a>
+  </div>
+
+  <div class="alt-blok">
+    <?php if ($ayar->get('contact_email') !== ''): ?>
+      <a href="mailto:<?= e($ayar->get('contact_email')) ?>"><?= e($ayar->get('contact_email')) ?></a>
+    <?php endif; ?>
+    <?php foreach (['whatsapp' => 'WhatsApp', 'telegram' => 'Telegram', 'instagram' => 'Instagram', 'twitter' => 'X'] as $anahtar => $etiket): ?>
+      <?php if ($ayar->get($anahtar) !== ''): ?>
+        <a href="<?= e($ayar->get($anahtar)) ?>" rel="noopener" target="_blank"><?= $etiket ?></a>
+      <?php endif; ?>
+    <?php endforeach; ?>
+  </div>
 </footer>
 </body>
 </html>

@@ -1,7 +1,6 @@
 <section class="kahraman">
-  <h1>Tek kullanimlik sanal numara ile SMS onayi</h1>
-  <p>Kendi numaranizi paylasmadan, dakikalar icinde dogrulama kodunuzu alin.
-     Numara gelmezse ucret otomatik olarak bakiyenize iade edilir.</p>
+  <h1><?= e($ayar->get('site_tagline')) ?></h1>
+  <p><?= e($ayar->get('site_description')) ?></p>
   <p><a class="dugme" href="/kayit">Hesap olustur</a> <a class="dugme ikincil" href="/giris">Giris yap</a></p>
 </section>
 
@@ -23,5 +22,22 @@
       <li><?= e($ulke['name']) ?></li>
     <?php endforeach; ?>
   </ul>
+</section>
+<?php endif; ?>
+
+<?php if ($yazilar !== []): ?>
+<section>
+  <h2>Blogdan</h2>
+  <div class="yazilar">
+    <?php foreach ($yazilar as $yazi): ?>
+      <article class="yazi-ozet">
+        <h3><a href="/blog/<?= e($yazi['slug']) ?>"><?= e($yazi['title']) ?></a></h3>
+        <?php if ($yazi['excerpt'] !== null && $yazi['excerpt'] !== ''): ?>
+          <p><?= e($yazi['excerpt']) ?></p>
+        <?php endif; ?>
+      </article>
+    <?php endforeach; ?>
+  </div>
+  <p><a href="/blog">Tum yazilar &rarr;</a></p>
 </section>
 <?php endif; ?>

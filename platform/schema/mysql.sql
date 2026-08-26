@@ -163,3 +163,60 @@ CREATE TABLE IF NOT EXISTS activity_log (
     PRIMARY KEY (id),
     KEY ix_log_action (action, id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ---------------------------------------------------------------------------
+-- Icerik yonetimi
+-- ---------------------------------------------------------------------------
+
+-- Statik sayfalar: hakkimizda, SSS, sozlesmeler, iade politikasi.
+CREATE TABLE IF NOT EXISTS pages (
+    id               BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    title            VARCHAR(190) NOT NULL,
+    slug             VARCHAR(190) NOT NULL,
+    content          MEDIUMTEXT   NOT NULL,
+    meta_description VARCHAR(255) NULL,
+    status           ENUM('draft','published') NOT NULL DEFAULT 'draft',
+    show_in_menu     TINYINT(1)   NOT NULL DEFAULT 0,
+    menu_order       INT          NOT NULL DEFAULT 0,
+    created_at       DATETIME     NOT NULL,
+    updated_at       DATETIME     NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY ux_pages_slug (slug),
+    KEY ix_pages_menu (status, show_in_menu, menu_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS post_categories (
+    id         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name       VARCHAR(120) NOT NULL,
+    slug       VARCHAR(120) NOT NULL,
+    sort_order INT          NOT NULL DEFAULT 0,
+    PRIMARY KEY (id),
+    UNIQUE KEY ux_categories_slug (slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Blog yazilari: organik trafigin geldigi yer.
+CREATE TABLE IF NOT EXISTS posts (
+    id               BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    category_id      BIGINT UNSIGNED NULL,
+    title            VARCHAR(190) NOT NULL,
+    slug             VARCHAR(190) NOT NULL,
+    excerpt          VARCHAR(500) NULL,
+    content          MEDIUMTEXT   NOT NULL,
+    meta_description VARCHAR(255) NULL,
+    status           ENUM('draft','published') NOT NULL DEFAULT 'draft',
+    published_at     DATETIME     NULL,
+    created_at       DATETIME     NOT NULL,
+    updated_at       DATETIME     NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY ux_posts_slug (slug),
+    KEY ix_posts_liste (status, published_at),
+    KEY ix_posts_category (category_id, status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Site ayarlari anahtar-deger olarak tutulur: yeni bir alan icin sema
+-- degistirmek gerekmesin.
+CREATE TABLE IF NOT EXISTS site_settings (
+    setting_key   VARCHAR(80)  NOT NULL,
+    setting_value TEXT         NULL,
+    PRIMARY KEY (setting_key)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

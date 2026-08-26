@@ -3,7 +3,7 @@ namespace Onay\Core\Contract;
 
 /**
  * Saglayici adaptorleri HTTP'yi dogrudan cagirmaz; testte sahte istemci gecirilebilsin
- * ve Laravel tarafinda Http facade'i ile degistirilebilsin diye bu arayuz kullanilir.
+ * ve gerektiginde baska bir istemcuyle degistirilebilsin diye bu arayuz kullanilir.
  */
 interface HttpClientInterface
 {

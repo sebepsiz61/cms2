@@ -1,7 +1,7 @@
 <?php
 /**
- * Composer olmadan da calisabilmesi icin minimal PSR-4 yukleyici.
- * Laravel projesine tasindiginda composer autoload devralir.
+ * Minimal PSR-4 yukleyici. Bu proje Composer kullanmaz; dosyalari sunucuya
+ * yuklemek yeterlidir.
  */
 spl_autoload_register(function (string $class): void {
     $prefix = 'Onay\\Core\\';

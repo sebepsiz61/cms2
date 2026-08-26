@@ -1,7 +1,7 @@
 <?php
 /**
- * PHPUnit kurulamadigi icin (paket deposu bu ortamda kapali) kucuk bir kosucu.
- * Laravel projesine tasindiginda testler PHPUnit'e birebir cevrilebilir.
+ * Kucuk test kosucusu. Proje disaridan paket kurmadigi icin PHPUnit yerine
+ * bu kullanilir; testler istenirse PHPUnit'e birebir cevrilebilir.
  */
 require __DIR__ . '/../autoload.php';
 

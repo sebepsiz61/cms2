@@ -20,6 +20,8 @@ require $root . '/autoload.php';
 use Onay\App\Kernel\Config;
 use Onay\App\Kernel\Database;
 use Onay\App\Repository\OrderRepository;
+use Onay\App\Repository\ContentRepository;
+use Onay\App\Repository\SettingsRepository;
 use Onay\App\Repository\UserRepository;
 use Onay\App\Service\Container;
 use Onay\App\Service\ProviderFactory;
@@ -46,6 +48,9 @@ if ($temizle) {
     $pdo->exec("DELETE FROM payment_requests");
     $pdo->exec("DELETE FROM wallet_transactions WHERE user_id IN (SELECT id FROM users WHERE role = 'customer')");
     $pdo->exec("DELETE FROM users WHERE role = 'customer'");
+    $pdo->exec("DELETE FROM posts");
+    $pdo->exec("DELETE FROM post_categories");
+    $pdo->exec("DELETE FROM pages");
     $pdo->exec("UPDATE users SET balance_minor = 0 WHERE role = 'customer'");
 }
 
@@ -220,6 +225,115 @@ ksort($olusan);
 foreach ($olusan as $durum => $adet) {
     printf("  %-14s %d\n", $durum, $adet);
 }
+
+// --- Icerik -------------------------------------------------------------
+$icerik = new ContentRepository();
+
+(new SettingsRepository())->save([
+    'site_title'       => 'NumaraOnay',
+    'site_tagline'     => 'Tek kullanimlik sanal numara ile SMS onayi',
+    'site_description' => 'Kendi numaranizi paylasmadan, dakikalar icinde dogrulama kodunuzu alin. '
+                        . 'SMS gelmezse ucret otomatik olarak bakiyenize iade edilir.',
+    'contact_email'    => 'destek@ornek.com',
+    'contact_phone'    => '0850 000 00 00',
+    'telegram'         => 'https://t.me/ornek',
+    'instagram'        => 'https://instagram.com/ornek',
+    'whatsapp'         => '',
+    'twitter'          => '',
+    'footer_text'      => 'Tum tutarlar TRY cinsindendir.',
+    'announcement'     => '',
+]);
+
+$sayfalar = [
+    ['Hakkimizda', 1, 1,
+     '<p>Dijital guvenligi ve kullanici mahremiyetini onceleyen bir SMS onay platformuyuz. '
+     . 'Numaralarimiz lisansli saglayicilardan gelir ve yalnizca tek seferlik dogrulama icin kullanilir.</p>'
+     . '<h2>Neden sanal numara</h2>'
+     . '<p>Kendi numaranizi bir servise verdiginizde o numara pazarlama listelerine dusebilir. '
+     . 'Tek kullanimlik numara ile dogrulamayi tamamlar, kendi numaranizi paylasmis olmazsiniz.</p>'],
+    ['Sikca Sorulan Sorular', 2, 1,
+     '<h2>SMS ne kadar surede gelir</h2><p>Cogu serviste bir dakika icinde gelir. '
+     . 'Sure dolana kadar gelmezse ucret otomatik olarak bakiyenize iade edilir.</p>'
+     . '<h2>Ayni numarayi tekrar kullanabilir miyim</h2><p>Hayir. Numaralar tek kullanimliktir '
+     . 've islem bittikten sonra devre disi kalir.</p>'
+     . '<h2>Bakiye nasil yuklerim</h2><p>Havale/EFT ile. Talep olusturdugunuzda size bir referans '
+     . 'kodu verilir; aciklamaya bu kodu yazmaniz gerekir.</p>'],
+    ['Iade Politikasi', 3, 1,
+     '<p>Verilmeyen hizmetin ucreti alinmaz.</p>'
+     . '<ul><li>Sure dolana kadar SMS gelmezse ucret otomatik iade edilir.</li>'
+     . '<li>Numarayi kendiniz iptal ederseniz, SMS gelmemis olmasi kosuluyla ucret iade edilir.</li>'
+     . '<li>Dogrulama kodu ekraniniza dustukten sonra iade yapilmaz.</li></ul>'],
+    ['Mesafeli Satis Sozlesmesi', 4, 1,
+     '<p>Bu metin ornektir; yayina almadan once hukuk danismaniniza gozden gecirtin.</p>'
+     . '<h2>Taraflar</h2><p>Satici ve alici bilgileri.</p>'
+     . '<h2>Sozlesmenin konusu</h2><p>Elektronik ortamda sunulan sanal numara hizmeti.</p>'],
+];
+
+foreach ($sayfalar as [$baslik, $sira, $menude, $govde]) {
+    $icerik->savePage(null, [
+        'title' => $baslik,
+        'slug' => ContentRepository::slugify($baslik),
+        'content' => $govde,
+        'meta_description' => mb_substr(strip_tags($govde), 0, 150),
+        'status' => 'published',
+        'show_in_menu' => $menude,
+        'menu_order' => $sira,
+    ]);
+}
+
+$kategoriler = [];
+foreach (['Rehberler' => 1, 'Guvenlik' => 2, 'Duyurular' => 3] as $ad => $sira) {
+    $kategoriler[$ad] = $icerik->saveCategory(null, $ad, ContentRepository::slugify($ad), $sira);
+}
+
+$yazilar = [
+    ['SMS onay nedir, nasil calisir', 'Rehberler',
+     'Dogrulama kodlarinin neden istendigini ve sanal numarayla nasil alinacagini adim adim anlatiyoruz.',
+     '<p>Bir servise kaydolurken telefonunuza gelen kod, hesabin size ait oldugunu dogrular. '
+     . 'Bu adima SMS onay ya da OTP denir.</p>'
+     . '<h2>Sanal numarayla nasil yapilir</h2>'
+     . '<ol><li>Bakiye yukleyin.</li><li>Ulke ve servisi secin.</li>'
+     . '<li>Ekranda beliren numarayi ilgili servise girin.</li>'
+     . '<li>Gelen kodu kopyalayin.</li></ol>'
+     . '<p>Kod gelmezse sure sonunda ucret bakiyenize iade edilir.</p>'],
+    ['Kendi numaranizi neden paylasmamalisiniz', 'Guvenlik',
+     'Telefon numarasi bugun bir kimlik gibi kullaniliyor. Paylasmanin uzun vadeli maliyeti var.',
+     '<p>Numaraniz pek cok yerde hesap kurtarma anahtaridir. Bir sizinti sonrasi bu numara '
+     . 'dolandiricilik denemelerinin hedefi olur.</p>'
+     . '<h2>Basit onlemler</h2>'
+     . '<ul><li>Tek seferlik dogrulamalarda sanal numara kullanin.</li>'
+     . '<li>Kritik hesaplarda SMS yerine uygulama tabanli dogrulama tercih edin.</li></ul>'],
+    ['Numara gelmezse ne oluyor', 'Rehberler',
+     'Iade sureci nasil isliyor, ne zaman iptal edebilirsiniz.',
+     '<p>Numara aldiginizda ucret bakiyenizden dusulur ve geri sayim baslar.</p>'
+     . '<h2>Sure dolarsa</h2><p>Sistem numarayi kapatir ve ucreti bakiyenize geri yukler. '
+     . 'Bunun icin bir sey yapmaniz gerekmez.</p>'
+     . '<h2>Erken iptal</h2><p>SMS gelmediyse beklemeden de iptal edebilirsiniz.</p>'],
+    ['Hangi ulkeyi secmeliyim', 'Rehberler',
+     'Servisler bazi ulkelerden gelen numaralari kabul etmeyebilir.',
+     '<p>Fiyat ve basari orani ulkeye gore degisir. Bir ulke calismazsa baska bir ulkeyi deneyin; '
+     . 'basarisiz denemelerde ucret alinmaz.</p>'],
+    ['Bakiye yukleme adimlari', 'Duyurular',
+     'Havale/EFT ile bakiye yuklerken referans kodunu aciklamaya yazmayi unutmayin.',
+     '<p>Bakiye sayfasindan tutari girip talep olusturun. Size ozel bir referans kodu uretilir.</p>'
+     . '<p>Havale aciklamasina bu kodu yazin; onay islemi bu kodla eslestirilir.</p>'],
+];
+
+foreach ($yazilar as $sira => [$baslik, $kategori, $ozet, $govde]) {
+    $icerik->savePost(null, [
+        'category_id' => $kategoriler[$kategori],
+        'title' => $baslik,
+        'slug' => ContentRepository::slugify($baslik),
+        'excerpt' => $ozet,
+        'content' => $govde,
+        'meta_description' => $ozet,
+        'status' => 'published',
+        'published_at' => date('Y-m-d H:i:s', time() - ($sira + 1) * 4 * 86400),
+    ]);
+}
+
+printf("\nIcerik: %d sayfa, %d kategori, %d yazi, site ayarlari\n",
+    count($sayfalar), count($kategoriler), count($yazilar));
 
 // --- Ozet ---------------------------------------------------------------
 $toplam = $pdo->query("SELECT COUNT(*) FROM number_orders")->fetchColumn();

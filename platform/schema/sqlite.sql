@@ -163,3 +163,55 @@ CREATE TABLE IF NOT EXISTS activity_log (
 );
 
 CREATE INDEX IF NOT EXISTS ix_log_action ON activity_log (action, id);
+
+CREATE TABLE IF NOT EXISTS pages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title            TEXT NOT NULL,
+    slug             TEXT NOT NULL,
+    content          MEDIUMTEXT   NOT NULL,
+    meta_description TEXT NULL,
+    status           TEXT NOT NULL DEFAULT 'draft',
+    show_in_menu     INTEGER   NOT NULL DEFAULT 0,
+    menu_order       INTEGER          NOT NULL DEFAULT 0,
+    created_at       TEXT     NOT NULL,
+    updated_at       TEXT     NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS ux_pages_slug ON pages (slug);
+
+CREATE INDEX IF NOT EXISTS ix_pages_menu ON pages (status, show_in_menu, menu_order);
+
+CREATE TABLE IF NOT EXISTS post_categories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       TEXT NOT NULL,
+    slug       TEXT NOT NULL,
+    sort_order INTEGER          NOT NULL DEFAULT 0
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS ux_categories_slug ON post_categories (slug);
+
+CREATE TABLE IF NOT EXISTS posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    category_id      INTEGER NULL,
+    title            TEXT NOT NULL,
+    slug             TEXT NOT NULL,
+    excerpt          TEXT NULL,
+    content          MEDIUMTEXT   NOT NULL,
+    meta_description TEXT NULL,
+    status           TEXT NOT NULL DEFAULT 'draft',
+    published_at     TEXT     NULL,
+    created_at       TEXT     NOT NULL,
+    updated_at       TEXT     NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS ux_posts_slug ON posts (slug);
+
+CREATE INDEX IF NOT EXISTS ix_posts_liste ON posts (status, published_at);
+
+CREATE INDEX IF NOT EXISTS ix_posts_category ON posts (category_id, status);
+
+CREATE TABLE IF NOT EXISTS site_settings (
+    setting_key   TEXT  NOT NULL,
+    setting_value TEXT         NULL,
+    PRIMARY KEY (setting_key)
+);

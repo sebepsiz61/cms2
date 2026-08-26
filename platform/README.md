@@ -26,6 +26,19 @@ sinifi yazmak demektir. Ayrintilar icin `core/README.md`.
 | `bin/` | Kurulum, cron, sema ureticisi |
 | `storage/` | Gunluk, dekont yuklemeleri, kilit dosyalari |
 
+## Icerik yonetimi
+
+Yonetim panelinden duzenlenir, kod degistirmeye gerek yoktur:
+
+- **Sayfalar** — Hakkimizda, SSS, sozlesmeler. Yayinda/taslak, ust menude gosterme
+  ve siralama secenekleriyle. Adres basliktan uretilir (Turkce harfler cevrilir).
+- **Blog** — kategorili yazilar, ozet, yayin tarihi. Ileri tarihli yazi zamani
+  gelene kadar listede gorunmez.
+- **Ayarlar** — site adi, slogan, aciklama, duyuru bandi, iletisim ve sosyal
+  baglantilar, alt bilgi metni. Ust menu, alt bilgi ve ana sayfa bunlardan beslenir.
+
+Taslak icerik ziyaretciye hicbir yerde gorunmez; bu filtre depo katmaninda uygulanir.
+
 ## Kurulum (cPanel + VPS)
 
 **1. Dosyalari yukleyin.** Ornegin `/home/kullanici/platform`.

@@ -1,5 +1,7 @@
 <?php
-use Onay\App\Kernel\Config;
+use Onay\App\Repository\SettingsRepository;
+
+$ayar = new SettingsRepository();
 ?>
 <!doctype html>
 <html lang="tr">
@@ -11,12 +13,15 @@ use Onay\App\Kernel\Config;
 </head>
 <body class="yonetim">
 <header class="ust">
-  <a class="marka" href="/yonetim"><?= e(Config::get('app.name', '')) ?> · Yonetim</a>
+  <a class="marka" href="/yonetim"><?= e($ayar->get('site_title')) ?> · Yonetim</a>
   <nav>
     <a href="/yonetim/havaleler">Havaleler</a>
     <a href="/yonetim/siparisler">Siparisler</a>
     <a href="/yonetim/katalog">Katalog</a>
     <a href="/yonetim/kullanicilar">Kullanicilar</a>
+    <a href="/yonetim/sayfalar">Sayfalar</a>
+    <a href="/yonetim/yazilar">Blog</a>
+    <a href="/yonetim/ayarlar">Ayarlar</a>
     <a href="/panel">Musteri paneli</a>
     <form method="post" action="/cikis" class="satirici">
       <?= \Onay\App\Kernel\Csrf::field() ?>

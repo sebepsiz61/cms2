@@ -36,6 +36,10 @@ $router = new Router();
 
 // Genel
 $router->get('/', [Front\HomeController::class, 'index']);
+$router->get('/sayfa/{slug}', [Front\PageController::class, 'show']);
+$router->get('/blog', [Front\BlogController::class, 'index']);
+$router->get('/blog/kategori/{slug}', [Front\BlogController::class, 'category']);
+$router->get('/blog/{slug}', [Front\BlogController::class, 'show']);
 $router->get('/giris', [Front\AuthController::class, 'showLogin']);
 $router->post('/giris', [Front\AuthController::class, 'login'], [VerifyCsrf::class]);
 $router->get('/kayit', [Front\AuthController::class, 'showRegister']);
@@ -68,6 +72,20 @@ $router->post('/yonetim/katalog/esle', [Admin\CatalogController::class, 'map'], 
 $router->post('/yonetim/katalog/ulke', [Admin\CatalogController::class, 'addCountry'], $adminPost);
 $router->post('/yonetim/katalog/servis', [Admin\CatalogController::class, 'addService'], $adminPost);
 $router->post('/yonetim/katalog/senkron', [Admin\CatalogController::class, 'sync'], $adminPost);
+// Icerik yonetimi
+$router->get('/yonetim/sayfalar', [Admin\ContentController::class, 'pages'], $admin);
+$router->get('/yonetim/sayfalar/{id}', [Admin\ContentController::class, 'pageForm'], $admin);
+$router->post('/yonetim/sayfalar/{id}', [Admin\ContentController::class, 'savePage'], $adminPost);
+$router->post('/yonetim/sayfalar/{id}/sil', [Admin\ContentController::class, 'deletePage'], $adminPost);
+$router->get('/yonetim/yazilar', [Admin\ContentController::class, 'posts'], $admin);
+$router->get('/yonetim/yazilar/{id}', [Admin\ContentController::class, 'postForm'], $admin);
+$router->post('/yonetim/yazilar/{id}', [Admin\ContentController::class, 'savePost'], $adminPost);
+$router->post('/yonetim/yazilar/{id}/sil', [Admin\ContentController::class, 'deletePost'], $adminPost);
+$router->post('/yonetim/kategoriler', [Admin\ContentController::class, 'saveCategory'], $adminPost);
+$router->post('/yonetim/kategoriler/{id}/sil', [Admin\ContentController::class, 'deleteCategory'], $adminPost);
+$router->get('/yonetim/ayarlar', [Admin\SettingsController::class, 'index'], $admin);
+$router->post('/yonetim/ayarlar', [Admin\SettingsController::class, 'save'], $adminPost);
+
 $router->get('/yonetim/kullanicilar', [Admin\UserController::class, 'index'], $admin);
 $router->post('/yonetim/kullanicilar/{id}/guncelle', [Admin\UserController::class, 'update'], $adminPost);
 $router->post('/yonetim/kullanicilar/{id}/bakiye', [Admin\UserController::class, 'adjust'], $adminPost);

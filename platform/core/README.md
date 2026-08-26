@@ -5,8 +5,8 @@ Sanal numara platformunun framework'ten bagimsiz cekirdegi. Iki isi yapar:
 1. **Saglayici soyutlamasi** — hangi toptanci firma ile calisildigindan bagimsiz, tek bir arayuz.
 2. **Cuzdan defteri** — para hareketlerinin kaybolmadigi, cift islenmedigi ve eksiye dusmedigi kayit katmani.
 
-Laravel'e (ya da baska bir PHP catisina) bagimlilik yoktur; catisi HTTP, kuyruk ve ORM kabugu olarak
-disarida kalir. Boylece bu iki katman gercek para harcamadan test edilebilir.
+Hicbir catiya ve hicbir pakete bagimlilik yoktur — saf PHP. Boylece bu iki katman gercek para
+harcamadan, ayaga kaldirilacak bir cati olmadan test edilebilir.
 
 ## Neden ayri bir paket
 
@@ -104,11 +104,11 @@ Kayitlar hicbir zaman silinmez veya guncellenmez. Duzeltme yeni bir `adjust` har
 
 Tum tutarlar tam sayi **minor birimdir** (kurus). Para hesabinda ondalik sayi kullanilmaz.
 
-## Laravel tarafina baglanirken
+## Uygulamaya baglanirken
 
-- `HttpClientInterface` → `Http` facade'ini saran ince bir sinif (yeniden deneme, log, zaman asimi)
-- `LedgerInterface` → `PdoLedger` oldugu gibi kullanilir; `DB::connection()->getPdo()` gecilir
-- `ProviderRegistry` → service provider icinde, veritabanindaki etkin saglayici kayitlarindan kurulur
-- Yoklama, katalog senkronu ve zaman asimi iadeleri kuyruk isleri olarak sarilir
+- `HttpClientInterface` → `CurlHttpClient` (testte `FakeHttpClient`)
+- `LedgerInterface` → `PdoLedger`; PDO baglantisi disaridan gecilir
+- `ProviderRegistry` → yapilandirmadaki etkin saglayicilardan kurulur
+- Yoklama, katalog senkronu ve zaman asimi iadeleri cron uzerinden surulur
 
-Bu paket kuyruk, cron ya da HTTP bilmez; bunlar cati katmaninin isidir.
+Bu paket kuyruk, cron ya da HTTP bilmez; bunlar uygulama katmaninin isidir.
