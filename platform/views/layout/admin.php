@@ -18,6 +18,10 @@ use Onay\App\Kernel\Config;
     <a href="/yonetim/katalog">Katalog</a>
     <a href="/yonetim/kullanicilar">Kullanicilar</a>
     <a href="/panel">Musteri paneli</a>
+    <form method="post" action="/cikis" class="satirici">
+      <?= \Onay\App\Kernel\Csrf::field() ?>
+      <button type="submit" class="baglanti">Cikis</button>
+    </form>
   </nav>
 </header>
 

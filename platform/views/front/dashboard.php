@@ -29,7 +29,8 @@
   </form>
 
   <?php if ($selected !== null && $services !== []): ?>
-    <table class="liste">
+    <div class="tablo-kaydir">
+<table class="liste">
       <thead><tr><th>Servis</th><th>Stok</th><th></th></tr></thead>
       <tbody>
       <?php foreach ($services as $servis): ?>
@@ -48,6 +49,7 @@
       <?php endforeach; ?>
       </tbody>
     </table>
+    </div>
   <?php elseif ($selected !== null): ?>
     <p>Bu ulke icin su an stokta servis yok.</p>
   <?php endif; ?>
@@ -57,19 +59,22 @@
 <?php if ($orders === []): ?>
   <p>Henuz siparisiniz yok.</p>
 <?php else: ?>
-  <table class="liste">
-    <thead><tr><th>#</th><th>Numara</th><th>Servis</th><th>Tutar</th><th>Durum</th><th></th></tr></thead>
+  <div class="tablo-kaydir">
+<table class="liste">
+    <thead><tr><th>#</th><th>Numara</th><th>Ulke</th><th>Servis</th><th>Tutar</th><th>Durum</th><th></th></tr></thead>
     <tbody>
     <?php foreach ($orders as $siparis): ?>
       <tr>
         <td><?= (int) $siparis['id'] ?></td>
         <td class="tekaralik"><?= e($siparis['phone']) ?></td>
-        <td><?= e($siparis['service_code']) ?></td>
+        <td><?= e($siparis['country_name'] ?? $siparis['country_code']) ?></td>
+        <td><?= e($siparis['service_name'] ?? $siparis['service_code']) ?></td>
         <td><?= para((int) $siparis['price_minor']) ?></td>
-        <td><span class="durum <?= e($siparis['status']) ?>"><?= e($siparis['status']) ?></span></td>
+        <td><span class="durum <?= e($siparis['status']) ?>"><?= e(durumAdi($siparis['status'])) ?></span></td>
         <td><a href="/siparis/<?= (int) $siparis['id'] ?>">Ac</a></td>
       </tr>
     <?php endforeach; ?>
     </tbody>
   </table>
+  </div>
 <?php endif; ?>

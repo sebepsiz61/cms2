@@ -14,8 +14,13 @@ final class OrderController
     public function index(Request $request): Response
     {
         $stmt = Database::pdo()->prepare(
-            'SELECT o.*, u.email FROM number_orders o
+            'SELECT o.*, u.email,
+                    COALESCE(s.name, o.service_code) AS service_name,
+                    COALESCE(c.name, o.country_code) AS country_name
+             FROM number_orders o
              JOIN users u ON u.id = o.user_id
+             LEFT JOIN services  s ON s.code = o.service_code
+             LEFT JOIN countries c ON c.code = o.country_code
              ORDER BY o.id DESC LIMIT ?'
         );
         $stmt->bindValue(1, 100, \PDO::PARAM_INT);

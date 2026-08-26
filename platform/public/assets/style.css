@@ -28,7 +28,7 @@ a { color: var(--vurgu); }
   background: var(--kart);
   border-bottom: 1px solid var(--cizgi);
 }
-.ust nav { display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; }
+.ust nav { display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; min-width: 0; }
 .marka { font-weight: 700; text-decoration: none; color: var(--metin); }
 .satirici { display: inline; }
 
@@ -66,9 +66,13 @@ button.baglanti {
 .ikili { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 @media (max-width: 700px) { .ikili { grid-template-columns: 1fr; } }
 
-.kartlar { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+/* Grid, satirda tek kalan karti gerdirmez; flex gerdiriyordu. */
+.kartlar {
+  display: grid; gap: 1rem; margin-bottom: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+}
 .kart {
-  flex: 1 1 12rem; background: var(--kart); border: 1px solid var(--cizgi);
+  background: var(--kart); border: 1px solid var(--cizgi);
   border-radius: 4px; padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: .25rem;
 }
 .kart.dikkat { border-color: var(--bekle); }
@@ -81,7 +85,9 @@ button.baglanti {
 .kutu dt { color: var(--soluk); }
 .kutu dd { margin: 0; }
 
-.liste { width: 100%; border-collapse: collapse; background: var(--kart); font-size: .92rem; }
+/* Tablolar dar ekranda sayfayi tasirmasin: kendi icinde kaysinlar. */
+.tablo-kaydir { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 1rem; }
+.liste { width: 100%; min-width: 34rem; border-collapse: collapse; background: var(--kart); font-size: .92rem; }
 .liste th, .liste td { padding: .55rem .7rem; border-bottom: 1px solid var(--cizgi); text-align: left; vertical-align: middle; }
 .liste th { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--soluk); }
 .liste form { margin: 0; }
@@ -119,4 +125,19 @@ code { font-family: ui-monospace, monospace; font-size: .85em; background: #e8ed
   display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
   max-width: 60rem; margin: 0 auto; padding: 1rem 1.5rem 2rem;
   color: var(--soluk); font-size: .85rem; border-top: 1px solid var(--cizgi);
+}
+
+
+/* Dar ekran duzeltmeleri */
+@media (max-width: 640px) {
+  .kapsayici { padding: 1rem 1rem 3rem; }
+  .ust { padding: .7rem 1rem; }
+  .ust nav { gap: .8rem; font-size: .92rem; }
+  .kartlar { grid-template-columns: 1fr 1fr; }
+  .buyuk { font-size: 1.3rem; }
+  h1 { font-size: 1.35rem; }
+  .kutu dl { grid-template-columns: 1fr; gap: .1rem; }
+  .kutu dt { margin-top: .5rem; font-size: .82rem; }
+  .satir { gap: .5rem; }
+  .satir input[type=text] { min-width: 0; }
 }

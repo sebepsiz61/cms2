@@ -119,8 +119,18 @@ para harcamaz.
 Ardindan:
 
 ```bash
-php bin/demo-seed.php    # demo katalogunun ulke ve servislerini ekler
+php bin/demo-seed.php    # yalnizca ulke ve servisleri ekler
+php bin/demo-data.php    # gercekci veri: musteriler, gecmis siparisler, iadeler
 ```
+
+`demo-data.php` gorsel ve icerik testi icindir: bos bir sistemde tasarim
+degerlendirilemez. 6 musteri, onayli ve bekleyen havale talepleri, son 30 gune
+yayilmis ~45 siparis (tamamlanan, iade edilen, iptal, acik) ve gelen SMS'ler uretir.
+Para hareketleri dogrudan tabloya yazilmaz, defter uzerinden islenir; uretilen veri
+gercek sistemin uretecegiyle ayni tutarliliktadir. `--temizle` ile once mevcut demo
+verisini siler.
+
+Musteri girisi: `ayse@ornek.com` / `demo12345`
 
 Yonetim > Katalog > "Katalogu simdi senkronla" deyip musteri panelinden numara
 alabilirsiniz. `silent_service` olarak isaretli servis SMS getirmez; sure dolunca

@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<p>Durum: <span class="durum" id="durum"><?= e($order['status']) ?></span></p>
+<p>Durum: <span class="durum <?= e($order['status']) ?>" id="durum"><?= e(durumAdi($order['status'])) ?></span></p>
 
 <div id="mesajlar">
   <?php foreach ($messages as $mesaj): ?>
@@ -40,6 +40,11 @@
 (function () {
   var id = <?= (int) $order['id'] ?>;
   var bitti = ['completed', 'cancelled', 'expired', 'refunded'];
+  // Sunucudaki durumAdi() ile ayni karsiliklar: ekranda kod degil metin gorunsun.
+  var durumAdlari = {
+    waiting_sms: 'SMS bekleniyor', received: 'SMS geldi', completed: 'Tamamlandi',
+    cancelled: 'Iptal edildi', expired: 'Sure doldu, iade edildi', refunded: 'Iade edildi'
+  };
   var kalan = <?= max(0, strtotime((string) $order['expires_at']) - time()) ?>;
 
   function sureYaz() {
@@ -54,7 +59,9 @@
       .then(function (r) { return r.json(); })
       .then(function (d) {
         if (d.error) { return; }
-        document.getElementById('durum').textContent = d.status;
+        var durumEl = document.getElementById('durum');
+        durumEl.textContent = durumAdlari[d.status] || d.status;
+        durumEl.className = 'durum ' + d.status;
         if (d.code) { document.getElementById('kod').textContent = d.code; }
         if (typeof d.expiresIn === 'number') { kalan = d.expiresIn; }
 

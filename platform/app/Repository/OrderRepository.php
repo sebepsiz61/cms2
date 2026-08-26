@@ -53,7 +53,15 @@ final class OrderRepository
     /** @return array<int, array<string,mixed>> */
     public function forUser(int $userId, int $limit = 50): array
     {
-        $stmt = Database::pdo()->prepare('SELECT * FROM number_orders WHERE user_id = ? ORDER BY id DESC LIMIT ?');
+        // Musteriye kod degil ad gosterilir: "whatsapp" degil "WhatsApp".
+        $stmt = Database::pdo()->prepare(
+            'SELECT o.*, COALESCE(s.name, o.service_code) AS service_name,
+                    COALESCE(c.name, o.country_code) AS country_name
+             FROM number_orders o
+             LEFT JOIN services  s ON s.code = o.service_code
+             LEFT JOIN countries c ON c.code = o.country_code
+             WHERE o.user_id = ? ORDER BY o.id DESC LIMIT ?'
+        );
         $stmt->bindValue(1, $userId, \PDO::PARAM_INT);
         $stmt->bindValue(2, $limit, \PDO::PARAM_INT);
         $stmt->execute();

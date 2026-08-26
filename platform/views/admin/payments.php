@@ -2,7 +2,8 @@
 <?php if ($payments === []): ?>
   <p>Bekleyen havale talebi yok.</p>
 <?php else: ?>
-  <table class="liste">
+  <div class="tablo-kaydir">
+<table class="liste">
     <thead><tr><th>#</th><th>Kullanici</th><th>Tutar</th><th>Referans</th><th>Dekont</th><th>Tarih</th><th>Islem</th></tr></thead>
     <tbody>
     <?php foreach ($payments as $talep): ?>
@@ -31,6 +32,7 @@
     <?php endforeach; ?>
     </tbody>
   </table>
+  </div>
   <p class="not">
     Onaydan once havalenin hesaba gectigini dogrulayin. Ayni talep ikinci kez onaylanamaz;
     sistem bunu hem talep durumu hem defter anahtari ile engeller.

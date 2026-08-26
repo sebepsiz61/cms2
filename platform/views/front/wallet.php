@@ -33,7 +33,8 @@
 <?php if ($payments === []): ?>
   <p>Henuz talebiniz yok.</p>
 <?php else: ?>
-  <table class="liste">
+  <div class="tablo-kaydir">
+<table class="liste">
     <thead><tr><th>#</th><th>Tutar</th><th>Referans kodu</th><th>Durum</th><th>Tarih</th></tr></thead>
     <tbody>
     <?php foreach ($payments as $talep): ?>
@@ -41,10 +42,11 @@
         <td><?= (int) $talep['id'] ?></td>
         <td><?= para((int) $talep['amount_minor']) ?></td>
         <td class="tekaralik"><?= e($talep['reference_code']) ?></td>
-        <td><span class="durum <?= e($talep['status']) ?>"><?= e($talep['status']) ?></span></td>
+        <td><span class="durum <?= e($talep['status']) ?>"><?= e(durumAdi($talep['status'])) ?></span></td>
         <td><?= e($talep['created_at']) ?></td>
       </tr>
     <?php endforeach; ?>
     </tbody>
   </table>
+  </div>
 <?php endif; ?>

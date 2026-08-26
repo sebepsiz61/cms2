@@ -12,7 +12,8 @@
   <p>Eslenmemis kod yok.</p>
 <?php else: ?>
   <p class="not">Bu kodlar saglayicidan geldi ama karsiligi tanimli degil, bu yuzden katalogda gorunmuyorlar.</p>
-  <table class="liste">
+  <div class="tablo-kaydir">
+<table class="liste">
     <thead><tr><th>Saglayici</th><th>Tur</th><th>Saglayici kodu</th><th>Bizim kodumuz</th></tr></thead>
     <tbody>
     <?php foreach ($unmapped as $kod): ?>
@@ -39,6 +40,7 @@
     <?php endforeach; ?>
     </tbody>
   </table>
+  </div>
 <?php endif; ?>
 
 <div class="ikili">

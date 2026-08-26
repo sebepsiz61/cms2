@@ -1,4 +1,5 @@
 <?php use Onay\App\Kernel\Csrf; ?>
+<div class="tablo-kaydir">
 <table class="liste">
   <thead><tr><th>#</th><th>Ad</th><th>E-posta</th><th>Bakiye</th><th>Rol / Durum</th><th>Bakiye duzeltme</th></tr></thead>
   <tbody>
@@ -39,4 +40,5 @@
   <?php endforeach; ?>
   </tbody>
 </table>
+</div>
 <p class="not">Bakiye duzeltmeleri defterde <code>adjust</code> hareketi olarak kalir; hicbir kayit silinmez.</p>

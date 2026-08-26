@@ -1,4 +1,5 @@
 <?php use Onay\App\Kernel\Csrf; ?>
+<div class="tablo-kaydir">
 <table class="liste">
   <thead><tr><th>#</th><th>Kullanici</th><th>Saglayici</th><th>Numara</th><th>Servis</th>
              <th>Maliyet</th><th>Satis</th><th>Durum</th><th>Islem</th></tr></thead>
@@ -9,10 +10,10 @@
       <td><?= e($siparis['email']) ?></td>
       <td><?= e($siparis['provider']) ?></td>
       <td class="tekaralik"><?= e($siparis['phone']) ?></td>
-      <td><?= e($siparis['country_code']) ?>/<?= e($siparis['service_code']) ?></td>
+      <td><?= e($siparis['country_name'] ?? $siparis['country_code']) ?> / <?= e($siparis['service_name'] ?? $siparis['service_code']) ?></td>
       <td><?= number_format($siparis['cost_minor'] / 100, 2, ',', '.') ?> <?= e($siparis['cost_currency']) ?></td>
       <td><?= para((int) $siparis['price_minor']) ?></td>
-      <td><span class="durum <?= e($siparis['status']) ?>"><?= e($siparis['status']) ?></span></td>
+      <td><span class="durum <?= e($siparis['status']) ?>"><?= e(durumAdi($siparis['status'])) ?></span></td>
       <td>
         <?php if (in_array($siparis['status'], ['waiting_sms', 'received'], true)): ?>
           <form method="post" action="/yonetim/siparisler/<?= (int) $siparis['id'] ?>/iade">
@@ -25,3 +26,4 @@
   <?php endforeach; ?>
   </tbody>
 </table>
+</div>
