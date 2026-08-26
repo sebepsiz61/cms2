@@ -222,6 +222,21 @@ cPanel'de SSH'daki `php` genelde eski bir surumdur. Tam yol kullanin:
 
 Cron isini de bu tam yolla yazin.
 
+### Adreste "/public" gorunuyor
+
+Uygulama alt klasorden yayinlaniyor demektir. Uc secenek `deploy/README.md`
+icinde anlatiliyor; ozeti:
+
+1. **Dokuman kokunu `platform/public` yapin** (en temizi, ek dosya gerekmez).
+2. Yapamiyorsaniz `deploy/public_html.htaccess` dosyasini alan adinizin dokuman
+   kokune `.htaccess` olarak kopyalayin; istekler arka planda uygulamaya gider,
+   adres `example.com/giris` gorunur.
+3. Hicbiri olmuyorsa sistem alt klasorden de calisir; adres uzun kalir ama
+   islevsellik degismez.
+
+`index.php` de adreste gorunuyorsa (`/public/index.php/giris`) mod_rewrite
+kapalidir. Bu bicim de desteklenir, ancak kalici cozum modulu acmaktir.
+
 ### Her sayfada "Sayfa bulunamadi"
 
 Iki sebebi olabilir:

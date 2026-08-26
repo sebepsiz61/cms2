@@ -16,12 +16,18 @@ $menuSayfalari = (new ContentRepository())->menuPages();
 <?php if (!empty($description)): ?>
 <meta name="description" content="<?= e((string) $description) ?>">
 <?php endif; ?>
-<link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
+<link rel="stylesheet" href="<?= asset('/assets/style.css') ?>">
 </head>
 <body>
 <header class="ust">
   <a class="marka" href="<?= url('/') ?>"><?= e($ayar->get('site_title')) ?></a>
-  <nav>
+
+  <button class="menu-dugme" type="button" aria-expanded="false" aria-controls="ana-menu"
+          aria-label="Menuyu ac/kapat">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav id="ana-menu">
     <a href="<?= url('/blog') ?>">Blog</a>
     <?php foreach ($menuSayfalari as $ms): ?>
       <a href="<?= url('') ?>/sayfa/<?= e($ms['slug']) ?>"><?= e($ms['title']) ?></a>
@@ -85,5 +91,20 @@ $menuSayfalari = (new ContentRepository())->menuPages();
     <?php endforeach; ?>
   </div>
 </footer>
+<script>
+// Dar ekranda menu dugmesi; genis ekranda menu her zaman acik oldugu icin
+// bu kod yalnizca sinif degistirir, gorunumu CSS belirler.
+(function () {
+  var dugme = document.querySelector('.menu-dugme');
+  var menu = document.getElementById('ana-menu');
+  if (!dugme || !menu) { return; }
+
+  dugme.addEventListener('click', function () {
+    var acik = menu.classList.toggle('acik');
+    dugme.setAttribute('aria-expanded', acik ? 'true' : 'false');
+    dugme.classList.toggle('acik', acik);
+  });
+})();
+</script>
 </body>
 </html>

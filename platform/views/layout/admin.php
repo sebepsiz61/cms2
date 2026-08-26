@@ -9,7 +9,7 @@ $ayar = new SettingsRepository();
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($title ?? '') ?> · Yonetim</title>
-<link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
+<link rel="stylesheet" href="<?= asset('/assets/style.css') ?>">
 </head>
 <body class="yonetim">
 <header class="ust">

@@ -203,3 +203,101 @@ label.onay input { width: auto; margin: 0; }
 .alt-blok { display: flex; flex-direction: column; gap: .3rem; }
 .alt-blok a { color: var(--soluk); text-decoration: none; }
 .alt-blok a:hover { color: var(--vurgu); }
+
+
+/* --- Mobil menu --- */
+.menu-dugme {
+  display: none; width: 2.4rem; height: 2.4rem; padding: .5rem;
+  background: none; border: 1px solid var(--cizgi); border-radius: 3px;
+  cursor: pointer; flex-direction: column; justify-content: space-between;
+}
+.menu-dugme span { display: block; height: 2px; background: var(--metin); border-radius: 1px; }
+.menu-dugme.acik span:nth-child(2) { opacity: 0; }
+
+@media (max-width: 720px) {
+  .ust { flex-wrap: wrap; }
+  .menu-dugme { display: flex; }
+  .ust nav {
+    display: none; width: 100%; flex-direction: column; align-items: stretch;
+    gap: 0; padding-top: .6rem; margin-top: .6rem; border-top: 1px solid var(--cizgi);
+  }
+  .ust nav.acik { display: flex; }
+  .ust nav > * { padding: .55rem .1rem; border-bottom: 1px solid var(--cizgi); }
+  .ust nav > *:last-child { border-bottom: 0; }
+  .ust nav .dugme { text-align: center; margin-top: .5rem; }
+}
+
+/* --- Ana sayfa --- */
+.kahraman {
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem;
+  align-items: center; padding: 2rem 0 1rem;
+}
+.kahraman > * { min-width: 0; }
+@media (max-width: 820px) { .kahraman { grid-template-columns: 1fr; gap: 1.75rem; } }
+
+.ust-etiket {
+  font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--vurgu); font-weight: 700; margin: 0 0 .5rem;
+}
+.kahraman h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); line-height: 1.12; margin: 0 0 .8rem; max-width: 18ch; }
+.kahraman .giris { font-size: 1.05rem; color: var(--soluk); max-width: 46ch; margin: 0 0 1.3rem; }
+.kahraman-eylem { display: flex; gap: .7rem; flex-wrap: wrap; margin: 0 0 1.4rem; }
+.buyuk-dugme { padding: .7rem 1.4rem; font-size: 1rem; }
+
+.guven { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; }
+.guven li { font-size: .88rem; color: var(--soluk); display: flex; align-items: center; gap: .4rem; }
+.guven li::before { content: "✓"; color: var(--iyi); font-weight: 700; }
+
+.vitrin {
+  background: var(--kart); border: 1px solid var(--cizgi); border-radius: 6px;
+  padding: 1.1rem 1.2rem; box-shadow: 0 1px 3px rgba(19, 26, 38, .05);
+}
+.vitrin-baslik {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: .76rem; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--soluk); padding-bottom: .7rem; border-bottom: 1px solid var(--cizgi);
+}
+.vitrin-ulke { background: #e0eceb; color: var(--vurgu); padding: .1rem .45rem; border-radius: 2px; font-weight: 700; }
+.vitrin-liste { list-style: none; padding: 0; margin: 0; }
+.vitrin-liste li {
+  display: grid; grid-template-columns: 1fr auto auto; gap: .8rem; align-items: center;
+  padding: .6rem 0; border-bottom: 1px solid var(--cizgi); font-size: .93rem;
+}
+.vitrin-liste li:last-child { border-bottom: 0; }
+.vitrin-ad { font-weight: 600; }
+.vitrin-stok { color: var(--soluk); font-size: .8rem; }
+.vitrin-fiyat { font-weight: 700; font-variant-numeric: tabular-nums; }
+.vitrin-alt { display: inline-block; margin-top: .8rem; font-size: .9rem; }
+
+.serit { padding: 2.2rem 0; border-top: 1px solid var(--cizgi); }
+.serit h2 { margin-top: 0; }
+
+.adim-kartlari {
+  list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+}
+.adim-kartlari li {
+  background: var(--kart); border: 1px solid var(--cizgi); border-radius: 4px;
+  padding: 1.1rem; display: flex; flex-direction: column; gap: .35rem;
+}
+.adim-no {
+  width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--vurgu); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .9rem;
+  margin-bottom: .3rem;
+}
+.adim-kartlari span:last-child { color: var(--soluk); font-size: .9rem; }
+
+.sss { display: flex; flex-direction: column; gap: .5rem; max-width: 46rem; }
+.sss details {
+  background: var(--kart); border: 1px solid var(--cizgi); border-radius: 4px; padding: .8rem 1rem;
+}
+.sss summary { cursor: pointer; font-weight: 600; font-size: .96rem; }
+.sss summary::marker { color: var(--vurgu); }
+.sss p { margin: .6rem 0 0; color: var(--soluk); font-size: .93rem; }
+
+.cagri {
+  text-align: center; padding: 2.5rem 1.5rem; margin-top: 2.5rem;
+  background: var(--kart); border: 1px solid var(--cizgi); border-radius: 6px;
+}
+.cagri h2 { margin-top: 0; }
+.cagri p { margin: 0 auto 1.2rem; color: var(--soluk); max-width: 42ch; }

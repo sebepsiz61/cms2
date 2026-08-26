@@ -23,6 +23,16 @@ function url(string $yol = '/'): string
     return Request::$basePath . $yol;
 }
 
+/** Varlik adresi. index.php on eki almaz; dosyalar dogrudan sunulur. */
+function asset(string $yol): string
+{
+    if ($yol === '' || $yol[0] !== '/') {
+        $yol = '/' . $yol;
+    }
+
+    return Request::$assetPath . $yol;
+}
+
 function e(?string $value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');

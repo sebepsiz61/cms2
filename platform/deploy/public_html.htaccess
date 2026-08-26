@@ -1,0 +1,35 @@
+# Adresten "/public" gizlemek icin.
+#
+# Dokuman kokunu platform/public yapamadiysaniz bu dosyayi alan adinizin
+# dokuman kokune (genelde public_html/) ".htaccess" adiyla koyun.
+#
+# Sonuc: ziyaretci example.com/giris gorur, istek arka planda
+# platform/public/index.php'ye gider. platform/ klasoru web'den erisilemez.
+#
+# ONEMLI: KLASOR degiskenini kendi kurulumunuza gore duzenleyin.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # platform klasorunun dokuman kokune gore yolu. public_html'in yaninda
+    # duruyorsa "../platform", icinde duruyorsa "platform" yazin.
+    # Ornek: /home/hesapadi/platform  ve  /home/hesapadi/public_html
+    #        ise asagidaki satir dogrudur.
+
+    # 1) Gercek dosya ya da klasor istendiyse dokunma (resim, css, robots.txt).
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 2) Varlik istekleri dogrudan public/assets altina.
+    RewriteRule ^assets/(.*)$ ../platform/public/assets/$1 [L]
+
+    # 3) Geri kalan her sey uygulamaya.
+    RewriteRule ^ ../platform/public/index.php [L]
+</IfModule>
+
+# platform/ klasoru dokuman kokunun DISINDA olmali. Icindeyse
+# platform/.htaccess, platform/app/.htaccess vb. dosyalari koruma saglar
+# ama dogru olan disarida tutmaktir.
+
+Options -Indexes

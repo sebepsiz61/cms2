@@ -11,6 +11,13 @@ final class Request
      */
     public static string $basePath = '';
 
+    /**
+     * Varliklarin (css, js, resim) on eki. $basePath rewrite kapaliyken
+     * index.php'yi de icerir; dosyalar index.php uzerinden sunulamayacagi icin
+     * varliklar her zaman dizin yolunu kullanir.
+     */
+    public static string $assetPath = '';
+
     private function __construct(
         public readonly string $method,
         public readonly string $path,
@@ -22,12 +29,25 @@ final class Request
 
     public static function capture(): self
     {
-        self::$basePath = self::detectBasePath();
+        $script = (string) ($_SERVER['SCRIPT_NAME'] ?? '');
+        $istek = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 
-        $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+        // mod_rewrite kapaliysa index.php adreste kalir (/public/index.php/giris).
+        // O durumda taban yolu index.php'yi de icerir ve yol PATH_INFO'dan gelir.
+        $rewriteYok = $script !== '' && str_starts_with($istek, $script);
 
-        if (self::$basePath !== '' && str_starts_with($path, self::$basePath)) {
-            $path = substr($path, strlen(self::$basePath));
+        self::$assetPath = self::detectBasePath();
+
+        if ($rewriteYok) {
+            self::$basePath = rtrim($script, '/');
+            $path = (string) ($_SERVER['PATH_INFO'] ?? substr($istek, strlen($script)));
+        } else {
+            self::$basePath = self::$assetPath;
+            $path = $istek;
+
+            if (self::$basePath !== '' && str_starts_with($path, self::$basePath)) {
+                $path = substr($path, strlen(self::$basePath));
+            }
         }
 
         $path = '/' . trim($path, '/');
