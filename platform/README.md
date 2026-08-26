@@ -98,6 +98,21 @@ Eksik olan her madde icin hem cPanel hem WHM yolunu yazar.
 PHP surumu, eklentiler, PDO suruculeri, yapilandirma, yazma izinleri ve veritabani
 baglantisini tek tek dener; eksik olan her madde icin ne yapilacagini yazar.
 
+### Saglayici anahtari calisiyor mu
+
+Katalog senkronu iki farkli sorunu ayni hataya dusurur: anahtar gecersiz mi, yoksa
+kodlar eslenmemis mi? Bu betik ikisini ayirir ve numara satin almadan, para
+harcamadan test eder:
+
+```bash
+php bin/provider-test.php            # acik olan tum saglayicilar
+php bin/provider-test.php fivesim    # yalnizca biri
+```
+
+Uc adimda rapor verir: bakiye sorgusu (anahtar gecerli mi), katalog (kac teklif
+geliyor), kod eslemesi (hangi saglayici kodlari eslenmeyi bekliyor). "Katalog bos"
+sonucu neredeyse her zaman ucuncu adimdaki eksikliktir, anahtar sorunu degil.
+
 ### "PDO surucusu yuklu degil" / "could not find driver"
 
 En sik karsilasilan kurulum sorunu. Her PHP surumunun kendi eklenti seti vardir;
