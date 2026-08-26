@@ -84,19 +84,64 @@ Kurulumda bir sey calismazsa once teshis betigini calistirin:
 php bin/doctor.php
 ```
 
+SSH erisiminiz yoksa ya da tarayicidan bakmak istiyorsaniz ayni kontrolu
+`public/kurulum-kontrol.php` yapar — hicbir seye bagimli degildir, proje kurulmadan
+once de calisir:
+
+```
+https://alanadiniz.com/kurulum-kontrol.php
+```
+
+Eksik olan her madde icin hem cPanel hem WHM yolunu yazar.
+**Kontrol bittiginde bu dosyayi sunucudan silin.**
+
 PHP surumu, eklentiler, PDO suruculeri, yapilandirma, yazma izinleri ve veritabani
 baglantisini tek tek dener; eksik olan her madde icin ne yapilacagini yazar.
 
 ### "PDO surucusu yuklu degil" / "could not find driver"
 
-En sik karsilasilan kurulum sorunu. cPanel'de her PHP surumunun kendi eklenti seti
-vardir; surumu degistirdiginizde eklentiler sifirlanir.
+En sik karsilasilan kurulum sorunu. Her PHP surumunun kendi eklenti seti vardir;
+surumu degistirdiginizde eklentiler sifirlanir.
 
-1. cPanel > **Select PHP Version** (bazi surumlerde MultiPHP INI Editor)
+**cPanel'de (son kullanici paneli):**
+
+1. cPanel > **Select PHP Version**
 2. Surum **8.2** secili olsun
 3. **Extensions** sekmesinde su kutulari isaretleyin: `pdo`, `nd_pdo_mysql`
    (bazi sunucularda `pdo_mysql` adiyla gorunur), `curl`, `mbstring`, `fileinfo`
-4. **Save** deyin, sonra `php bin/doctor.php` ile dogrulayin
+4. **Save** deyin
+
+**WHM'de (root paneli) yapi farklidir** — orada "Select PHP Version" yoktur,
+eklentiler EasyApache 4 uzerinden kurulur:
+
+1. WHM > **EasyApache 4** > yuklu profilde **Customize**
+2. **PHP Versions** sekmesinde `ea-php82` isaretli olsun
+3. **PHP Extensions** sekmesinde arama kutusuna eklenti adini yazin ve cikan
+   `ea-php82-php-*` paketini isaretleyin
+4. **Review** > **Provision** (birkac dakika surer)
+5. WHM > **MultiPHP Manager** ile alan adini `ea-php82` yapin
+
+EasyApache 4 paket adlari:
+
+| Eklenti | Paket |
+|---|---|
+| `pdo` | `ea-php82-php-pdo` |
+| `pdo_mysql` | `ea-php82-php-mysqlnd` (mysqli ile ayni pakettedir) |
+| `curl` | `ea-php82-php-curl` |
+| `mbstring` | `ea-php82-php-mbstring` |
+| `fileinfo` | `ea-php82-php-fileinfo` |
+| `json` | PHP 8 cekirdeginde, ayri paket yok |
+
+Komut satirini tercih ederseniz:
+
+```bash
+yum install -y ea-php82-php-mysqlnd ea-php82-php-curl ea-php82-php-mbstring
+systemctl restart httpd
+systemctl restart ea-php82-php-fpm   # PHP-FPM kullaniliyorsa
+```
+
+Her iki durumda da sonucu `php bin/doctor.php` ya da tarayicidan
+`kurulum-kontrol.php` ile dogrulayin.
 
 ### Komut satiri farkli PHP surumu kullaniyor
 
