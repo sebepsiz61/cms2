@@ -25,11 +25,11 @@
 </div>
 
 <div class="satir" id="eylemler">
-  <form method="post" action="/siparis/<?= (int) $order['id'] ?>/tamamla">
+  <form method="post" action="<?= url('') ?>/siparis/<?= (int) $order['id'] ?>/tamamla">
     <?= Csrf::field() ?>
     <button type="submit" class="dugme">Kodu aldim, tamamla</button>
   </form>
-  <form method="post" action="/siparis/<?= (int) $order['id'] ?>/iptal">
+  <form method="post" action="<?= url('') ?>/siparis/<?= (int) $order['id'] ?>/iptal">
     <?= Csrf::field() ?>
     <button type="submit" class="dugme ikincil">Iptal et ve iade al</button>
   </form>
@@ -39,6 +39,8 @@
 // Kuyruk isciisi yok; tarayici sunucuyu yokluyor, sunucu saglayiciya soruyor.
 (function () {
   var id = <?= (int) $order['id'] ?>;
+  // Alt klasor kurulumunda adresin basina taban yolu gerekir.
+  var taban = <?= json_encode(url('')) ?>;
   var bitti = ['completed', 'cancelled', 'expired', 'refunded'];
   // Sunucudaki durumAdi() ile ayni karsiliklar: ekranda kod degil metin gorunsun.
   var durumAdlari = {
@@ -55,7 +57,7 @@
   setInterval(function () { if (kalan > 0) { kalan--; sureYaz(); } }, 1000);
 
   function yokla() {
-    fetch('/siparis/' + id + '/durum', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+    fetch(taban + '/siparis/' + id + '/durum', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
       .then(function (r) { return r.json(); })
       .then(function (d) {
         if (d.error) { return; }

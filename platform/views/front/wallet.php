@@ -18,7 +18,7 @@
   <p><?= e($bank['note'] ?? '') ?></p>
 </section>
 
-<form method="post" action="/bakiye" enctype="multipart/form-data" class="dar">
+<form method="post" action="<?= url('/bakiye') ?>" enctype="multipart/form-data" class="dar">
   <?= Csrf::field() ?>
   <label>Yuklemek istediginiz tutar
     <input type="text" name="tutar" placeholder="250,00" required>

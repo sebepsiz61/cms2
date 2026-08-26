@@ -1,5 +1,5 @@
 <?php use Onay\App\Kernel\Csrf; ?>
-<form method="post" action="/yonetim/ayarlar" class="form-genis">
+<form method="post" action="<?= url('/yonetim/ayarlar') ?>" class="form-genis">
   <?= Csrf::field() ?>
 
   <h2>Site</h2>

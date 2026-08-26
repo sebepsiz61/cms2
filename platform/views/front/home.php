@@ -1,7 +1,7 @@
 <section class="kahraman">
   <h1><?= e($ayar->get('site_tagline')) ?></h1>
   <p><?= e($ayar->get('site_description')) ?></p>
-  <p><a class="dugme" href="/kayit">Hesap olustur</a> <a class="dugme ikincil" href="/giris">Giris yap</a></p>
+  <p><a class="dugme" href="<?= url('/kayit') ?>">Hesap olustur</a> <a class="dugme ikincil" href="<?= url('/giris') ?>">Giris yap</a></p>
 </section>
 
 <section>
@@ -31,13 +31,13 @@
   <div class="yazilar">
     <?php foreach ($yazilar as $yazi): ?>
       <article class="yazi-ozet">
-        <h3><a href="/blog/<?= e($yazi['slug']) ?>"><?= e($yazi['title']) ?></a></h3>
+        <h3><a href="<?= url('') ?>/blog/<?= e($yazi['slug']) ?>"><?= e($yazi['title']) ?></a></h3>
         <?php if ($yazi['excerpt'] !== null && $yazi['excerpt'] !== ''): ?>
           <p><?= e($yazi['excerpt']) ?></p>
         <?php endif; ?>
       </article>
     <?php endforeach; ?>
   </div>
-  <p><a href="/blog">Tum yazilar &rarr;</a></p>
+  <p><a href="<?= url('/blog') ?>">Tum yazilar &rarr;</a></p>
 </section>
 <?php endif; ?>

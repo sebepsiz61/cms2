@@ -16,27 +16,27 @@ $menuSayfalari = (new ContentRepository())->menuPages();
 <?php if (!empty($description)): ?>
 <meta name="description" content="<?= e((string) $description) ?>">
 <?php endif; ?>
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
 </head>
 <body>
 <header class="ust">
-  <a class="marka" href="/"><?= e($ayar->get('site_title')) ?></a>
+  <a class="marka" href="<?= url('/') ?>"><?= e($ayar->get('site_title')) ?></a>
   <nav>
-    <a href="/blog">Blog</a>
+    <a href="<?= url('/blog') ?>">Blog</a>
     <?php foreach ($menuSayfalari as $ms): ?>
-      <a href="/sayfa/<?= e($ms['slug']) ?>"><?= e($ms['title']) ?></a>
+      <a href="<?= url('') ?>/sayfa/<?= e($ms['slug']) ?>"><?= e($ms['title']) ?></a>
     <?php endforeach; ?>
     <?php if ($user !== null): ?>
-      <a href="/panel">Panel</a>
-      <a href="/bakiye">Bakiye <strong><?= para((int) $user['balance_minor']) ?></strong></a>
-      <?php if (Auth::isAdmin()): ?><a href="/yonetim">Yonetim</a><?php endif; ?>
-      <form method="post" action="/cikis" class="satirici">
+      <a href="<?= url('/panel') ?>">Panel</a>
+      <a href="<?= url('/bakiye') ?>">Bakiye <strong><?= para((int) $user['balance_minor']) ?></strong></a>
+      <?php if (Auth::isAdmin()): ?><a href="<?= url('/yonetim') ?>">Yonetim</a><?php endif; ?>
+      <form method="post" action="<?= url('/cikis') ?>" class="satirici">
         <?= \Onay\App\Kernel\Csrf::field() ?>
         <button type="submit" class="baglanti">Cikis</button>
       </form>
     <?php else: ?>
-      <a href="/giris">Giris</a>
-      <a href="/kayit" class="dugme kucuk">Kayit Ol</a>
+      <a href="<?= url('/giris') ?>">Giris</a>
+      <a href="<?= url('/kayit') ?>" class="dugme kucuk">Kayit Ol</a>
     <?php endif; ?>
   </nav>
 </header>
@@ -69,9 +69,9 @@ $menuSayfalari = (new ContentRepository())->menuPages();
 
   <div class="alt-blok">
     <?php foreach ($menuSayfalari as $ms): ?>
-      <a href="/sayfa/<?= e($ms['slug']) ?>"><?= e($ms['title']) ?></a>
+      <a href="<?= url('') ?>/sayfa/<?= e($ms['slug']) ?>"><?= e($ms['title']) ?></a>
     <?php endforeach; ?>
-    <a href="/blog">Blog</a>
+    <a href="<?= url('/blog') ?>">Blog</a>
   </div>
 
   <div class="alt-blok">

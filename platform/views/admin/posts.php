@@ -1,5 +1,5 @@
 <?php use Onay\App\Kernel\Csrf; ?>
-<p><a class="dugme" href="/yonetim/yazilar/yeni">Yeni yazi</a></p>
+<p><a class="dugme" href="<?= url('/yonetim/yazilar/yeni') ?>">Yeni yazi</a></p>
 
 <div class="ikili">
   <section>
@@ -18,8 +18,8 @@
             <td><span class="durum <?= $y['status'] === 'published' ? 'completed' : 'pending' ?>">
               <?= $y['status'] === 'published' ? 'Yayinda' : 'Taslak' ?></span></td>
             <td class="satir">
-              <a class="dugme kucuk" href="/yonetim/yazilar/<?= (int) $y['id'] ?>">Duzenle</a>
-              <form method="post" action="/yonetim/yazilar/<?= (int) $y['id'] ?>/sil"
+              <a class="dugme kucuk" href="<?= url('') ?>/yonetim/yazilar/<?= (int) $y['id'] ?>">Duzenle</a>
+              <form method="post" action="<?= url('') ?>/yonetim/yazilar/<?= (int) $y['id'] ?>/sil"
                     onsubmit="return confirm('Bu yazi silinsin mi?')">
                 <?= Csrf::field() ?>
                 <button type="submit" class="dugme kucuk ikincil">Sil</button>
@@ -35,7 +35,7 @@
 
   <section>
     <h2>Kategoriler</h2>
-    <form method="post" action="/yonetim/kategoriler" class="satir">
+    <form method="post" action="<?= url('/yonetim/kategoriler') ?>" class="satir">
       <?= Csrf::field() ?>
       <input type="text" name="name" placeholder="Rehberler" required>
       <input type="text" name="sort_order" size="3" placeholder="0">
@@ -47,7 +47,7 @@
         <?php foreach ($kategoriler as $k): ?>
           <li>
             <span><?= e($k['name']) ?> <span class="sayi"><?= (int) $k['post_count'] ?></span></span>
-            <form method="post" action="/yonetim/kategoriler/<?= (int) $k['id'] ?>/sil"
+            <form method="post" action="<?= url('') ?>/yonetim/kategoriler/<?= (int) $k['id'] ?>/sil"
                   onsubmit="return confirm('Kategori silinsin mi? Yazilar kategorisiz kalir.')">
               <?= Csrf::field() ?>
               <button type="submit" class="baglanti">sil</button>

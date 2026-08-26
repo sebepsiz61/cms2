@@ -1,6 +1,6 @@
 <div class="dar">
   <h1>Kayit ol</h1>
-  <form method="post" action="/kayit">
+  <form method="post" action="<?= url('/kayit') ?>">
     <?= \Onay\App\Kernel\Csrf::field() ?>
     <label>Ad soyad
       <input type="text" name="name" required autofocus>
@@ -13,5 +13,5 @@
     </label>
     <button type="submit" class="dugme">Hesap olustur</button>
   </form>
-  <p>Zaten uye misiniz? <a href="/giris">Giris yapin</a></p>
+  <p>Zaten uye misiniz? <a href="<?= url('/giris') ?>">Giris yapin</a></p>
 </div>

@@ -1,6 +1,28 @@
 <?php
 use Onay\App\Kernel\Money;
 
+use Onay\App\Kernel\Request;
+
+/**
+ * Uygulama ici adres uretir. Alt klasor kurulumunda basa taban yolunu ekler;
+ * kok kurulumda hicbir sey degismez.
+ */
+function url(string $yol = '/'): string
+{
+    // Bos dize yalnizca on ek istendigi anlamina gelir; basina egik cizgi
+    // eklenirse cagiran taraf kendi yolunu ekledinde "//" olusur ve tarayici
+    // bunu protokol-goreli adres sayar (http://sayfa/... gibi).
+    if ($yol === '') {
+        return Request::$basePath;
+    }
+
+    if ($yol[0] !== '/') {
+        $yol = '/' . $yol;
+    }
+
+    return Request::$basePath . $yol;
+}
+
 function e(?string $value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');

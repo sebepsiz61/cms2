@@ -1,5 +1,5 @@
 <?php use Onay\App\Kernel\Csrf; ?>
-<p><a class="dugme" href="/yonetim/sayfalar/yeni">Yeni sayfa</a></p>
+<p><a class="dugme" href="<?= url('/yonetim/sayfalar/yeni') ?>">Yeni sayfa</a></p>
 
 <?php if ($sayfalar === []): ?>
   <p>Henuz sayfa yok. "Hakkimizda", "SSS", "Mesafeli satis sozlesmesi" gibi sayfalarla baslayin.</p>
@@ -16,11 +16,11 @@
           <?= $s['status'] === 'published' ? 'Yayinda' : 'Taslak' ?></span></td>
         <td><?= $s['show_in_menu'] ? 'Menude (' . (int) $s['menu_order'] . ')' : '—' ?></td>
         <td class="satir">
-          <a class="dugme kucuk" href="/yonetim/sayfalar/<?= (int) $s['id'] ?>">Duzenle</a>
+          <a class="dugme kucuk" href="<?= url('') ?>/yonetim/sayfalar/<?= (int) $s['id'] ?>">Duzenle</a>
           <?php if ($s['status'] === 'published'): ?>
-            <a class="dugme kucuk ikincil" href="/sayfa/<?= e($s['slug']) ?>" target="_blank" rel="noopener">Gor</a>
+            <a class="dugme kucuk ikincil" href="<?= url('') ?>/sayfa/<?= e($s['slug']) ?>" target="_blank" rel="noopener">Gor</a>
           <?php endif; ?>
-          <form method="post" action="/yonetim/sayfalar/<?= (int) $s['id'] ?>/sil"
+          <form method="post" action="<?= url('') ?>/yonetim/sayfalar/<?= (int) $s['id'] ?>/sil"
                 onsubmit="return confirm('Bu sayfa silinsin mi?')">
             <?= Csrf::field() ?>
             <button type="submit" class="dugme kucuk ikincil">Sil</button>

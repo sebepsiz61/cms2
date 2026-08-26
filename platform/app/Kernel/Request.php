@@ -3,6 +3,14 @@ namespace Onay\App\Kernel;
 
 final class Request
 {
+    /**
+     * Uygulama alt klasorden yayinlanabilir (dokuman koku degistirilemeyen
+     * paylasimli sunucularda sik). O durumda REQUEST_URI "/platform/public/giris"
+     * gelir; rota tablosu ise "/giris" bilir. Bu on ek burada tespit edilip
+     * yoldan dusulur, uretilen baglantilara ise geri eklenir.
+     */
+    public static string $basePath = '';
+
     private function __construct(
         public readonly string $method,
         public readonly string $path,
@@ -14,7 +22,14 @@ final class Request
 
     public static function capture(): self
     {
+        self::$basePath = self::detectBasePath();
+
         $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+
+        if (self::$basePath !== '' && str_starts_with($path, self::$basePath)) {
+            $path = substr($path, strlen(self::$basePath));
+        }
+
         $path = '/' . trim($path, '/');
 
         return new self(
@@ -24,6 +39,20 @@ final class Request
             $_POST,
             $_FILES,
         );
+    }
+
+    /** index.php'nin bulundugu dizin; kok kurulumda bos dizedir. */
+    private static function detectBasePath(): string
+    {
+        $script = (string) ($_SERVER['SCRIPT_NAME'] ?? '');
+
+        if ($script === '') {
+            return '';
+        }
+
+        $dizin = rtrim(str_replace('\\', '/', dirname($script)), '/');
+
+        return $dizin === '' || $dizin === '.' ? '' : $dizin;
     }
 
     public function input(string $key, ?string $default = null): ?string

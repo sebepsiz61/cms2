@@ -14,16 +14,16 @@
         <td class="tekaralik"><?= e($talep['reference_code']) ?></td>
         <td>
           <?php if ($talep['receipt_path'] !== null): ?>
-            <a href="/yonetim/havaleler/<?= (int) $talep['id'] ?>/dekont" target="_blank" rel="noopener">Goruntule</a>
+            <a href="<?= url('') ?>/yonetim/havaleler/<?= (int) $talep['id'] ?>/dekont" target="_blank" rel="noopener">Goruntule</a>
           <?php else: ?>—<?php endif; ?>
         </td>
         <td><?= e($talep['created_at']) ?></td>
         <td class="satir">
-          <form method="post" action="/yonetim/havaleler/<?= (int) $talep['id'] ?>/onayla">
+          <form method="post" action="<?= url('') ?>/yonetim/havaleler/<?= (int) $talep['id'] ?>/onayla">
             <?= Csrf::field() ?>
             <button type="submit" class="dugme kucuk">Onayla</button>
           </form>
-          <form method="post" action="/yonetim/havaleler/<?= (int) $talep['id'] ?>/reddet">
+          <form method="post" action="<?= url('') ?>/yonetim/havaleler/<?= (int) $talep['id'] ?>/reddet">
             <?= Csrf::field() ?>
             <button type="submit" class="dugme kucuk ikincil">Reddet</button>
           </form>

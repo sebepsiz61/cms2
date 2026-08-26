@@ -9,21 +9,21 @@ $ayar = new SettingsRepository();
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($title ?? '') ?> · Yonetim</title>
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
 </head>
 <body class="yonetim">
 <header class="ust">
-  <a class="marka" href="/yonetim"><?= e($ayar->get('site_title')) ?> · Yonetim</a>
+  <a class="marka" href="<?= url('/yonetim') ?>"><?= e($ayar->get('site_title')) ?> · Yonetim</a>
   <nav>
-    <a href="/yonetim/havaleler">Havaleler</a>
-    <a href="/yonetim/siparisler">Siparisler</a>
-    <a href="/yonetim/katalog">Katalog</a>
-    <a href="/yonetim/kullanicilar">Kullanicilar</a>
-    <a href="/yonetim/sayfalar">Sayfalar</a>
-    <a href="/yonetim/yazilar">Blog</a>
-    <a href="/yonetim/ayarlar">Ayarlar</a>
-    <a href="/panel">Musteri paneli</a>
-    <form method="post" action="/cikis" class="satirici">
+    <a href="<?= url('/yonetim/havaleler') ?>">Havaleler</a>
+    <a href="<?= url('/yonetim/siparisler') ?>">Siparisler</a>
+    <a href="<?= url('/yonetim/katalog') ?>">Katalog</a>
+    <a href="<?= url('/yonetim/kullanicilar') ?>">Kullanicilar</a>
+    <a href="<?= url('/yonetim/sayfalar') ?>">Sayfalar</a>
+    <a href="<?= url('/yonetim/yazilar') ?>">Blog</a>
+    <a href="<?= url('/yonetim/ayarlar') ?>">Ayarlar</a>
+    <a href="<?= url('/panel') ?>">Musteri paneli</a>
+    <form method="post" action="<?= url('/cikis') ?>" class="satirici">
       <?= \Onay\App\Kernel\Csrf::field() ?>
       <button type="submit" class="baglanti">Cikis</button>
     </form>

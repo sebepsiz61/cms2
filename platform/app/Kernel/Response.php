@@ -24,8 +24,13 @@ final class Response
         );
     }
 
+    /** Ic adresler taban yoluyla birlikte uretilir; alt klasor kurulumu bozulmasin. */
     public static function redirect(string $to, int $status = 302): self
     {
+        if (str_starts_with($to, '/')) {
+            $to = Request::$basePath . $to;
+        }
+
         return new self('', $status, ['Location' => $to]);
     }
 

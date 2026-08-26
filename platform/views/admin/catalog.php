@@ -1,6 +1,6 @@
 <?php use Onay\App\Kernel\Csrf; ?>
 <div class="satir">
-  <form method="post" action="/yonetim/katalog/senkron">
+  <form method="post" action="<?= url('/yonetim/katalog/senkron') ?>">
     <?= Csrf::field() ?>
     <button type="submit" class="dugme">Katalogu simdi senkronla</button>
   </form>
@@ -22,7 +22,7 @@
         <td><?= e($kod['kind']) ?></td>
         <td class="tekaralik"><?= e($kod['provider_code']) ?></td>
         <td>
-          <form method="post" action="/yonetim/katalog/esle" class="satir">
+          <form method="post" action="<?= url('/yonetim/katalog/esle') ?>" class="satir">
             <?= Csrf::field() ?>
             <input type="hidden" name="provider" value="<?= e($kod['provider']) ?>">
             <input type="hidden" name="kind" value="<?= e($kod['kind']) ?>">
@@ -46,7 +46,7 @@
 <div class="ikili">
   <section>
     <h2>Ulkeler</h2>
-    <form method="post" action="/yonetim/katalog/ulke" class="satir">
+    <form method="post" action="<?= url('/yonetim/katalog/ulke') ?>" class="satir">
       <?= Csrf::field() ?>
       <input type="text" name="code" placeholder="GB" maxlength="8" required>
       <input type="text" name="name" placeholder="Ingiltere" required>
@@ -61,7 +61,7 @@
 
   <section>
     <h2>Servisler</h2>
-    <form method="post" action="/yonetim/katalog/servis" class="satir">
+    <form method="post" action="<?= url('/yonetim/katalog/servis') ?>" class="satir">
       <?= Csrf::field() ?>
       <input type="text" name="code" placeholder="whatsapp" maxlength="40" required>
       <input type="text" name="name" placeholder="WhatsApp" required>

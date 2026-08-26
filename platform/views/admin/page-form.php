@@ -1,5 +1,5 @@
 <?php use Onay\App\Kernel\Csrf; $y = $sayfa ?? []; ?>
-<form method="post" action="/yonetim/sayfalar/<?= isset($y['id']) ? (int) $y['id'] : 'yeni' ?>" class="form-genis">
+<form method="post" action="<?= url('') ?>/yonetim/sayfalar/<?= isset($y['id']) ? (int) $y['id'] : 'yeni' ?>" class="form-genis">
   <?= Csrf::field() ?>
 
   <label>Baslik
@@ -36,6 +36,6 @@
 
   <div class="satir">
     <button type="submit" class="dugme">Kaydet</button>
-    <a href="/yonetim/sayfalar">Vazgec</a>
+    <a href="<?= url('/yonetim/sayfalar') ?>">Vazgec</a>
   </div>
 </form>

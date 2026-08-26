@@ -1,6 +1,6 @@
 <article class="icerik">
   <?php if ($yazi['category_name'] !== null): ?>
-    <a class="kategori-etiket" href="/blog/kategori/<?= e($yazi['category_slug']) ?>"><?= e($yazi['category_name']) ?></a>
+    <a class="kategori-etiket" href="<?= url('') ?>/blog/kategori/<?= e($yazi['category_slug']) ?>"><?= e($yazi['category_name']) ?></a>
   <?php endif; ?>
   <h1><?= e($yazi['title']) ?></h1>
   <p class="tarih"><?= e(substr((string) ($yazi['published_at'] ?? $yazi['created_at']), 0, 10)) ?></p>
@@ -13,11 +13,11 @@
     <div class="yazilar">
       <?php foreach ($digerleri as $d): ?>
         <article class="yazi-ozet">
-          <h3><a href="/blog/<?= e($d['slug']) ?>"><?= e($d['title']) ?></a></h3>
+          <h3><a href="<?= url('') ?>/blog/<?= e($d['slug']) ?>"><?= e($d['title']) ?></a></h3>
         </article>
       <?php endforeach; ?>
     </div>
   </section>
 <?php endif; ?>
 
-<p><a href="/blog">&larr; Tum yazilar</a></p>
+<p><a href="<?= url('/blog') ?>">&larr; Tum yazilar</a></p>

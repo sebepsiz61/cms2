@@ -130,6 +130,37 @@ foreach ($ayarlar as [$ad, $ok, $deger, $not]) {
     );
 }
 
+// --- Adres yapisi -------------------------------------------------------
+// "Sayfa bulunamadi" hatalarinin iki sebebi var: uygulama alt klasorde ama
+// dokuman koku ayarlanmamis, ya da mod_rewrite kapali. Ikisini de ayirt ederiz.
+if (!$cli) {
+    $script = (string) ($_SERVER['SCRIPT_NAME'] ?? '');
+    $taban = rtrim(str_replace('\\', '/', dirname($script)), '/');
+    $kokte = $taban === '' || $taban === '.';
+
+    $bolumler['Adres yapisi'][] = madde(
+        'Kurulum yeri',
+        true,
+        $kokte ? 'alan adi koku (onerilen)' : 'alt klasor: ' . $taban,
+        '',
+        '',
+        ''
+    );
+
+    $rewrite = function_exists('apache_get_modules')
+        ? in_array('mod_rewrite', apache_get_modules(), true)
+        : null;
+
+    $bolumler['Adres yapisi'][] = madde(
+        'mod_rewrite',
+        $rewrite !== false,
+        $rewrite === null ? 'okunamadi (PHP-FPM/CGI olabilir)' : ($rewrite ? 'acik' : 'KAPALI'),
+        '',
+        'WHM > EasyApache 4 > Apache Modules bolumunde mod_rewrite isaretli olmali.',
+        'httpd -M | grep rewrite'
+    );
+}
+
 // --- Proje dosyalari ----------------------------------------------------
 // Bu dosya platform/public icindeyse proje kokunu bulabiliriz.
 $kok = dirname(__DIR__);

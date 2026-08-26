@@ -5,7 +5,7 @@
   <div class="kart">
     <span class="etiket">Bakiye</span>
     <strong class="buyuk"><?= para((int) $user['balance_minor']) ?></strong>
-    <a href="/bakiye">Bakiye yukle</a>
+    <a href="<?= url('/bakiye') ?>">Bakiye yukle</a>
   </div>
 </div>
 
@@ -14,7 +14,7 @@
     Katalog henuz bos. Yonetici panelinden saglayici tanimlanip katalog senkronu calistirilmali.
   </div>
 <?php else: ?>
-  <form method="get" action="/panel" class="satir">
+  <form method="get" action="<?= url('/panel') ?>" class="satir">
     <label>Ulke
       <select name="ulke" onchange="this.form.submit()">
         <option value="">Secin</option>
@@ -38,7 +38,7 @@
           <td><?= e($servis['name']) ?></td>
           <td><?= (int) $servis['stok'] ?></td>
           <td>
-            <form method="post" action="/siparis">
+            <form method="post" action="<?= url('/siparis') ?>">
               <?= Csrf::field() ?>
               <input type="hidden" name="ulke" value="<?= e($selected) ?>">
               <input type="hidden" name="servis" value="<?= e($servis['code']) ?>">
@@ -71,7 +71,7 @@
         <td><?= e($siparis['service_name'] ?? $siparis['service_code']) ?></td>
         <td><?= para((int) $siparis['price_minor']) ?></td>
         <td><span class="durum <?= e($siparis['status']) ?>"><?= e(durumAdi($siparis['status'])) ?></span></td>
-        <td><a href="/siparis/<?= (int) $siparis['id'] ?>">Ac</a></td>
+        <td><a href="<?= url('') ?>/siparis/<?= (int) $siparis['id'] ?>">Ac</a></td>
       </tr>
     <?php endforeach; ?>
     </tbody>

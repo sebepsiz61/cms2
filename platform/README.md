@@ -222,6 +222,23 @@ cPanel'de SSH'daki `php` genelde eski bir surumdur. Tam yol kullanin:
 
 Cron isini de bu tam yolla yazin.
 
+### Her sayfada "Sayfa bulunamadi"
+
+Iki sebebi olabilir:
+
+**1. Uygulama alt klasorde.** Dokuman kokunu `platform/public` yapamadiysaniz
+uygulama ornegin `alanadiniz.com/platform/public/` altindan yayinlanir. Sistem
+bunu kendi tespit eder ve baglantilari buna gore uretir — ek ayar gerekmez.
+Yine de dogru olan dokuman kokunu `public/` yapmaktir; ustelik o zaman
+`app/`, `core/`, `config/` ve `storage/` web'den hic erisilemez.
+
+**2. mod_rewrite kapali.** `public/.htaccess` tum istekleri `index.php`'ye
+yonlendirir; modul kapaliysa Apache dosyayi arar ve bulamaz. WHM > EasyApache 4 >
+Apache Modules bolumunden `mod_rewrite` isaretlenmeli. `AllowOverride` degeri
+`None` ise `.htaccess` hic okunmaz; sanal host ayarinda `All` yapilmali.
+
+Hangisi oldugunu `kurulum-kontrol.php` sayfasi "Adres yapisi" bolumunde soyler.
+
 ### "Access denied" veya "Unknown database"
 
 cPanel veritabani ve kullanici adlarini hesap adinizla on ekler. Hesap adiniz `ornek`

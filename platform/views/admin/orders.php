@@ -16,7 +16,7 @@
       <td><span class="durum <?= e($siparis['status']) ?>"><?= e(durumAdi($siparis['status'])) ?></span></td>
       <td>
         <?php if (in_array($siparis['status'], ['waiting_sms', 'received'], true)): ?>
-          <form method="post" action="/yonetim/siparisler/<?= (int) $siparis['id'] ?>/iade">
+          <form method="post" action="<?= url('') ?>/yonetim/siparisler/<?= (int) $siparis['id'] ?>/iade">
             <?= Csrf::field() ?>
             <button type="submit" class="dugme kucuk ikincil">Iade et</button>
           </form>

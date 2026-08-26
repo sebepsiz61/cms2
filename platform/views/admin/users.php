@@ -10,7 +10,7 @@
       <td><?= e($kullanici['email']) ?></td>
       <td><strong><?= para((int) $kullanici['balance_minor']) ?></strong></td>
       <td>
-        <form method="post" action="/yonetim/kullanicilar/<?= (int) $kullanici['id'] ?>/guncelle" class="satir">
+        <form method="post" action="<?= url('') ?>/yonetim/kullanicilar/<?= (int) $kullanici['id'] ?>/guncelle" class="satir">
           <?= Csrf::field() ?>
           <select name="role">
             <?php foreach (['customer' => 'Musteri', 'reseller' => 'Bayi', 'admin' => 'Yonetici'] as $kod => $ad): ?>
@@ -25,7 +25,7 @@
         </form>
       </td>
       <td>
-        <form method="post" action="/yonetim/kullanicilar/<?= (int) $kullanici['id'] ?>/bakiye" class="satir">
+        <form method="post" action="<?= url('') ?>/yonetim/kullanicilar/<?= (int) $kullanici['id'] ?>/bakiye" class="satir">
           <?= Csrf::field() ?>
           <input type="text" name="tutar" placeholder="50,00" size="7" required>
           <select name="yon">
