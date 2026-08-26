@@ -55,6 +55,21 @@ return [
     ],
 
     'providers' => [
+        // Gercek API anahtari hazir olmadan sistemi denemek icin. Disari hic
+        // cikmaz; sahte numara ve sahte SMS uretir. Etkinken her sayfada uyari
+        // gosterilir. GERCEK MUSTERILERE ACIK SITEDE KAPALI OLMALIDIR.
+        'demo' => [
+            'enabled'  => false,
+            'driver'   => 'demo',
+            'priority' => 1,
+            'api_key'  => 'gerekmez',
+            'currency' => 'TRY',
+            'sms_delay_seconds' => 15,        // SMS kac saniye sonra "gelsin"
+            'silent_service'    => 'instagram', // bu servise SMS hic gelmez (iade denemesi icin)
+            'cancel_window_seconds'    => 900,
+            'min_cancel_delay_seconds' => 0,
+        ],
+
         'fivesim' => [
             'enabled'  => false,
             'driver'   => 'fivesim',

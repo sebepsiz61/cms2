@@ -31,6 +31,13 @@ $user = Auth::user();
 </header>
 
 <main class="kapsayici">
+  <?php if (\Onay\App\Service\ProviderFactory::demoEtkin()): ?>
+    <div class="uyari demo">
+      <strong>DEMO KİPİ AÇIK.</strong> Satılan numaralar gerçek değildir, SMS'ler sahtedir.
+      Gerçek satışa geçmeden önce <code>config/config.php</code> içinde demo sağlayıcıyı kapatın.
+    </div>
+  <?php endif; ?>
+
   <?php foreach (($flash ?? []) as $mesaj): ?>
     <div class="uyari <?= e($mesaj['type']) ?>"><?= e($mesaj['message']) ?></div>
   <?php endforeach; ?>

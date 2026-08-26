@@ -7,6 +7,7 @@ use Onay\Core\Contract\HttpClientInterface;
 use Onay\Core\Dto\ProviderCapabilities;
 use Onay\Core\Http\CurlHttpClient;
 use Onay\Core\Provider\CatalogMapper;
+use Onay\Core\Provider\DemoProvider;
 use Onay\Core\Provider\FiveSimProvider;
 use Onay\Core\Provider\ProviderManager;
 use Onay\Core\Provider\ProviderRegistry;
@@ -72,6 +73,12 @@ final class ProviderFactory
                     (string) $name,
                     $capabilities
                 ),
+                'demo' => new DemoProvider(
+                    (string) $name,
+                    (int) ($settings['sms_delay_seconds'] ?? 15),
+                    (string) ($settings['silent_service'] ?? 'instagram'),
+                    $capabilities
+                ),
                 default => throw new \RuntimeException('Tanimsiz saglayici surucusu: ' . ($settings['driver'] ?? '?')),
             };
 
@@ -79,6 +86,21 @@ final class ProviderFactory
         }
 
         return $registry;
+    }
+
+    /**
+     * Etkin saglayicilar arasinda demo surucusu var mi? Varsa sitede satilan
+     * numaralar sahtedir ve kullaniciya bunu soylemek zorundayiz.
+     */
+    public static function demoEtkin(): bool
+    {
+        foreach ((array) Config::get('providers', []) as $settings) {
+            if (!empty($settings['enabled']) && ($settings['driver'] ?? '') === 'demo') {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function manager(?ProviderRegistry $registry = null): ProviderManager

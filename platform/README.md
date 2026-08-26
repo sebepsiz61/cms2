@@ -98,6 +98,37 @@ Eksik olan her madde icin hem cPanel hem WHM yolunu yazar.
 PHP surumu, eklentiler, PDO suruculeri, yapilandirma, yazma izinleri ve veritabani
 baglantisini tek tek dener; eksik olan her madde icin ne yapilacagini yazar.
 
+### API anahtari olmadan sistemi denemek (demo kipi)
+
+Gercek saglayici anahtari hazir degilse sistemin geri kalanini demo saglayici ile
+uctan uca calistirabilirsiniz. Disari hic cikmaz, sahte numara ve sahte SMS uretir,
+para harcamaz.
+
+`config/config.php` icinde:
+
+```php
+'demo' => [
+    'enabled'  => true,               // false idi
+    'driver'   => 'demo',
+    'sms_delay_seconds' => 15,        // SMS kac saniye sonra gelsin
+    'silent_service'    => 'instagram', // bu servise SMS hic gelmez
+    ...
+],
+```
+
+Ardindan:
+
+```bash
+php bin/demo-seed.php    # demo katalogunun ulke ve servislerini ekler
+```
+
+Yonetim > Katalog > "Katalogu simdi senkronla" deyip musteri panelinden numara
+alabilirsiniz. `silent_service` olarak isaretli servis SMS getirmez; sure dolunca
+otomatik iadenin calistigini boyle gorursunuz.
+
+**Demo etkinken her sayfada uyari bandi cikar.** Gercek satisa gecmeden once
+`'enabled' => false` yapin — sattigi numaralar gercek degildir.
+
 ### Saglayici anahtari calisiyor mu
 
 Katalog senkronu iki farkli sorunu ayni hataya dusurur: anahtar gecersiz mi, yoksa

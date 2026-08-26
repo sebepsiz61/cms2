@@ -91,18 +91,28 @@ foreach ($factory->registry()->enabled() as $provider) {
 
     $ayar = $tumSaglayicilar[$ad] ?? [];
     $anahtar = (string) ($ayar['api_key'] ?? '');
+    $demo = ($ayar['driver'] ?? '') === 'demo';
     $caps = $provider->capabilities();
 
     echo "\n{$ad}\n" . str_repeat('-', 62) . "\n";
     printf("  surucu        %s\n", $ayar['driver'] ?? '?');
     printf("  adres         %s\n", $ayar['base_url'] ?? '?');
-    printf("  anahtar       %s\n", $anahtar === '' ? 'BOS — doldurulmali' : maskele($anahtar));
+    printf("  anahtar       %s\n", match (true) {
+        $demo            => 'gerekmez (demo saglayici)',
+        $anahtar === ''  => 'BOS — doldurulmali',
+        default          => maskele($anahtar),
+    });
     printf("  para birimi   %s\n", $caps->currency);
     printf("  iptal suresi  %d sn (musteriye %d sn verilir)\n",
         $caps->cancelWindowSeconds,
         max(0, $caps->cancelWindowSeconds - (int) Config::get('order.safety_margin_seconds', 300)));
 
-    if ($anahtar === '') {
+    if ($demo) {
+        echo "\n  DEMO SAGLAYICI: sahte numara ve sahte SMS uretir, disari cikmaz.\n";
+        echo "  Gercek satisa gecmeden once config icinde kapatilmalidir.\n";
+    }
+
+    if (!$demo && $anahtar === '') {
         echo "\n  SONUC: api_key bos. Test edilemez.\n";
         $hata++;
         continue;
@@ -111,7 +121,7 @@ foreach ($factory->registry()->enabled() as $provider) {
     // Saglayici anahtarlari kisa olmaz. 5sim JWT verir (yuzlerce karakter),
     // SMS-Activate 32 karakterlik bir dizi. Bir kac karakterlik deger neredeyse
     // her zaman yanlis yapistirmadir.
-    if (strlen($anahtar) < 16) {
+    if (!$demo && strlen($anahtar) < 16) {
         printf("\n  UYARI: anahtar yalnizca %d karakter. Saglayici anahtarlari\n", strlen($anahtar));
         echo "  bundan cok daha uzundur (5sim: eyJ... ile baslayan uzun bir JWT,\n";
         echo "  SMS-Activate: 32 karakterlik dizi). Panelden tam anahtari kopyalayin.\n";

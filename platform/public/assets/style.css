@@ -96,6 +96,11 @@ button.baglanti {
 .uyari.error { border-color: var(--uyari); color: var(--uyari); }
 .uyari.success { border-color: var(--iyi); color: var(--iyi); }
 .uyari.bilgi { border-color: var(--bekle); color: var(--bekle); }
+.uyari.demo {
+  border-color: var(--uyari); background: #f6e3db; color: var(--uyari);
+  border-width: 2px; font-size: .92rem;
+}
+.uyari.demo strong { letter-spacing: .04em; }
 
 .rozetler { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
 .rozetler li { background: var(--kart); border: 1px solid var(--cizgi); border-radius: 2px; padding: .2rem .55rem; font-size: .85rem; }

@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/bootstrap.php';
 
-foreach (['catalog_mapper_test.php', 'provider_test.php', 'manager_test.php', 'ledger_test.php', 'refund_policy_test.php'] as $file) {
+foreach (['catalog_mapper_test.php', 'provider_test.php', 'demo_provider_test.php', 'manager_test.php', 'ledger_test.php', 'refund_policy_test.php'] as $file) {
     require __DIR__ . '/' . $file;
 }
 
