@@ -22,6 +22,24 @@ use Onay\App\Kernel\Database;
 use Onay\App\Service\ProviderFactory;
 use Onay\Core\Exception\ProviderException;
 
+/**
+ * Anahtari ekranda gizler. Kisa anahtarlarda bas ve son parcalari gostermek
+ * anahtarin tamamini acar; o yuzden esik altinda hicbir parca gosterilmez.
+ */
+function maskele(string $anahtar): string
+{
+    $uzunluk = strlen($anahtar);
+
+    if ($uzunluk < 16) {
+        return str_repeat('*', max(4, $uzunluk)) . ' (' . $uzunluk . ' karakter)';
+    }
+
+    return substr($anahtar, 0, 4)
+        . str_repeat('*', min(20, $uzunluk - 8))
+        . substr($anahtar, -4)
+        . ' (' . $uzunluk . ' karakter)';
+}
+
 if (PHP_SAPI !== 'cli') {
     http_response_code(403);
     exit("Bu betik yalnizca komut satirindan calistirilir.\n");
@@ -78,10 +96,7 @@ foreach ($factory->registry()->enabled() as $provider) {
     echo "\n{$ad}\n" . str_repeat('-', 62) . "\n";
     printf("  surucu        %s\n", $ayar['driver'] ?? '?');
     printf("  adres         %s\n", $ayar['base_url'] ?? '?');
-    printf("  anahtar       %s\n", $anahtar === ''
-        ? 'BOS — doldurulmali'
-        : substr($anahtar, 0, 4) . str_repeat('*', max(0, min(20, strlen($anahtar) - 8))) . substr($anahtar, -4)
-          . ' (' . strlen($anahtar) . ' karakter)');
+    printf("  anahtar       %s\n", $anahtar === '' ? 'BOS — doldurulmali' : maskele($anahtar));
     printf("  para birimi   %s\n", $caps->currency);
     printf("  iptal suresi  %d sn (musteriye %d sn verilir)\n",
         $caps->cancelWindowSeconds,
@@ -91,6 +106,15 @@ foreach ($factory->registry()->enabled() as $provider) {
         echo "\n  SONUC: api_key bos. Test edilemez.\n";
         $hata++;
         continue;
+    }
+
+    // Saglayici anahtarlari kisa olmaz. 5sim JWT verir (yuzlerce karakter),
+    // SMS-Activate 32 karakterlik bir dizi. Bir kac karakterlik deger neredeyse
+    // her zaman yanlis yapistirmadir.
+    if (strlen($anahtar) < 16) {
+        printf("\n  UYARI: anahtar yalnizca %d karakter. Saglayici anahtarlari\n", strlen($anahtar));
+        echo "  bundan cok daha uzundur (5sim: eyJ... ile baslayan uzun bir JWT,\n";
+        echo "  SMS-Activate: 32 karakterlik dizi). Panelden tam anahtari kopyalayin.\n";
     }
 
     // 1) Bakiye — anahtarin gecerli olup olmadiginin en kisa kaniti.
