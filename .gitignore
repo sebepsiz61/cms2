@@ -1,17 +1,11 @@
-/vendor/
-node_modules/
-npm-debug.log
-yarn-error.log
+# Gercek yapilandirma ve calisma zamani dosyalari surum kontrolune girmez.
+/platform/config/config.php
+/platform/storage/logs/*.log
+/platform/storage/uploads/*
+/platform/storage/*.lock
+/platform/storage/*.sqlite*
+/platform/storage/last-catalog-sync
 
-# Laravel 4 specific
-bootstrap/compiled.php
-app/storage/
-
-# Laravel 5 & Lumen specific
-public/storage
-public/hot
-storage/*.key
-.env
-Homestead.yaml
-Homestead.json
-/.vagrant
+# Kontrol dosyasi sunucuda kullanildiktan sonra silinir; yerelde kalabilir.
+.DS_Store
+Thumbs.db
