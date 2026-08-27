@@ -1,0 +1,30 @@
+# Dokuman kokune (public_html/) konur. index.php ile birlikte kullanilir.
+#
+# Sonuc: example.com/giris calisir, adres kisadir, "platform" ve "public"
+# klasorleri adreste gorunmez.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Varliklar (css, js, resim) uygulamanin public klasorunden sunulur.
+    # Once yanindaki, sonra ust dizindeki yerlesim denenir.
+    RewriteCond %{DOCUMENT_ROOT}/platform/public/assets/$1 -f
+    RewriteRule ^assets/(.*)$ platform/public/assets/$1 [L]
+
+    RewriteCond %{DOCUMENT_ROOT}/../platform/public/assets/$1 -f
+    RewriteRule ^assets/(.*)$ ../platform/public/assets/$1 [L]
+
+    # Var olan dosya ya da klasor istendiyse dokunma (robots.txt, favicon).
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Geri kalan her sey giris dosyasina.
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Uygulama dosyalari dokuman kokunun icindeyse dogrudan erisimi kapat.
+RedirectMatch 404 ^/platform/(app|core|config|storage|bin|views|schema|tests|deploy)/
+RedirectMatch 404 ^/platform/(autoload\.php|composer\.json)$
+
+Options -Indexes

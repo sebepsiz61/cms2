@@ -228,11 +228,15 @@ Uygulama alt klasorden yayinlaniyor demektir. Uc secenek `deploy/README.md`
 icinde anlatiliyor; ozeti:
 
 1. **Dokuman kokunu `platform/public` yapin** (en temizi, ek dosya gerekmez).
-2. Yapamiyorsaniz `deploy/public_html.htaccess` dosyasini alan adinizin dokuman
-   kokune `.htaccess` olarak kopyalayin; istekler arka planda uygulamaya gider,
-   adres `example.com/giris` gorunur.
+2. Yapamiyorsaniz `deploy/docroot/` icindeki `index.php` ve `.htaccess`
+   dosyalarini `public_html/` icine kopyalayin; istekler arka planda uygulamaya
+   devredilir, adres `example.com/giris` gorunur.
 3. Hicbiri olmuyorsa sistem alt klasorden de calisir; adres uzun kalir ama
    islevsellik degismez.
+
+Bu adresteki `/public` **PHP koduyla kaldirilamaz**: `example.com/` istegi
+dokuman kokune duser ve orada uygulamanin giris dosyasi yoksa uygulamanin
+haberi bile olmaz. Ayrintilar `deploy/README.md` icinde.
 
 `index.php` de adreste gorunuyorsa (`/public/index.php/giris`) mod_rewrite
 kapalidir. Bu bicim de desteklenir, ancak kalici cozum modulu acmaktir.
