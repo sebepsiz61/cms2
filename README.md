@@ -36,9 +36,3 @@ php core/tests/concurrency.php  # 10 surecle cift harcama testi
 php tests/app_test.php          # 14 uctan uca test
 php tests/cms_test.php          # 12 icerik testi
 ```
-
-## Gecmis
-
-Bu depo daha once Laravel 5.8 ile yazilmis bir kurumsal site CMS'i barindiriyordu.
-O uygulama kullanimdan kaldirildi ve depodan cikarildi; gecmisi git kayitlarinda
-durur. Su anki sistem onunla kod paylasmaz.
